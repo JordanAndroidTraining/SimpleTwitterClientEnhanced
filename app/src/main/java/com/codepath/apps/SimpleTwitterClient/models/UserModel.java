@@ -44,8 +44,8 @@ public class UserModel {
         if(GeneralUtils.checkJSONObjectCol("profile_image_url",json)){
             user.setProfilePhotoUrl(json.optString("profile_image_url"));
         }
-        if(GeneralUtils.checkJSONObjectCol("id_str",json)){
-            user.setUserID(json.optString("id_str"));
+        if(GeneralUtils.checkJSONObjectCol("screen_name",json)){
+            user.setUserID("@" + json.optString("screen_name"));
         }
         return user;
     }

@@ -20,8 +20,8 @@ public class TweetModel {
     private String caption = "";
     private String relativeTimestamp = "";
     private String tweetImgUrl = "";
-    private String retweetCount = "0";
-    private String favouritesCount = "0";
+    private int retweetCount = 0;
+    private int favouritesCount = 0;
     private List<HashTagModel> hashTagList;
     private List<MentionUserModel> mentonUsersList;
     private UserModel user;
@@ -29,22 +29,16 @@ public class TweetModel {
     public static TweetModel parseFromJSONObject(JSONObject json){
         TweetModel returnModel = new TweetModel();
         if(GeneralUtils.checkJSONObjectCol("text",json)){
-            Log.d(TWEET_MODEL_DEV_TAG,"In text ");
             returnModel.setCaption(json.optString("text"));
         }
         if(GeneralUtils.checkJSONObjectCol("retweet_count",json)){
-            Log.d(TWEET_MODEL_DEV_TAG,"In retweet_count ");
-            returnModel.setRetweetCount(json.optString("retweet_count"));
+            returnModel.setRetweetCount(json.optInt("retweet_count"));
         }
-        if(GeneralUtils.checkJSONObjectCol("favourites_count",json)){
-            Log.d(TWEET_MODEL_DEV_TAG,"In favourites_count ");
-
-           returnModel.setFavouritesCount(json.optString("favourites_count"));
+        if(GeneralUtils.checkJSONObjectCol("favorite_count",json)){
+           returnModel.setFavouritesCount(json.optInt("favorite_count"));
         }
         if(GeneralUtils.checkJSONObjectCol("created_at",json)){
-            Log.d(TWEET_MODEL_DEV_TAG,"In created_at ");
-
-            returnModel.setRelativeTimestamp(json.optString("created_at"));
+            returnModel.setRelativeTimestamp(GeneralUtils.getRelativeTimeAgo(json.optString("created_at")));
         }
         if(GeneralUtils.checkJSONObjectCol("user",json)){
             try {
@@ -115,19 +109,19 @@ public class TweetModel {
         this.mentonUsersList = mentonUsersList;
     }
 
-    public String getRetweetCount() {
+    public int getRetweetCount() {
         return retweetCount;
     }
 
-    public void setRetweetCount(String retweetCount) {
+    public void setRetweetCount(int retweetCount) {
         this.retweetCount = retweetCount;
     }
 
-    public String getFavouritesCount() {
+    public int getFavouritesCount() {
         return favouritesCount;
     }
 
-    public void setFavouritesCount(String favouritesCount) {
+    public void setFavouritesCount(int favouritesCount) {
         this.favouritesCount = favouritesCount;
     }
 

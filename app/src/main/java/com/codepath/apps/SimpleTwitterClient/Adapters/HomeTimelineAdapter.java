@@ -68,7 +68,7 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
         TweetModel renderModel = mHomeTimelineList.get(position);
 
         Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG,"viewHolder: " + viewHolder.toString());
-        Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG,"renderModel: " + renderModel.getUser().getProfilePhotoUrl());
+        Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "renderModel: " + renderModel.getUser().getProfilePhotoUrl());
 
         // set view content
         Picasso.with(mContext).load(renderModel.getUser().getProfilePhotoUrl()).into(viewHolder.profilePhotoIv);
@@ -77,9 +77,8 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
         viewHolder.relativeTimestampTv.setText(renderModel.getRelativeTimestamp());
         viewHolder.captionTv.setText(renderModel.getCaption());
 //        Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
-        viewHolder.retweetCountTv.setText(renderModel.getRetweetCount());
-        viewHolder.retweetCountTv.setText(renderModel.getFavouritesCount());
-
+        viewHolder.retweetCountTv.setText(String.valueOf(renderModel.getRetweetCount()));
+        viewHolder.starCountTv.setText(String.valueOf(renderModel.getFavouritesCount()));
         return convertView;
     }
 }
