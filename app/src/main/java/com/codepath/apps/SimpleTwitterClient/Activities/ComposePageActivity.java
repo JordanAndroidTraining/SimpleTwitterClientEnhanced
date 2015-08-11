@@ -1,4 +1,4 @@
-package com.codepath.apps.SimpleTwitterClient;
+package com.codepath.apps.SimpleTwitterClient.Activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

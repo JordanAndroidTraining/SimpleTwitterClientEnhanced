@@ -30,7 +30,7 @@
             android:value="1" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" >
             <intent-filter>
@@ -50,11 +50,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeTimelineActivity"
+            android:name=".Activities.HomeTimelineActivity"
             android:label="@string/title_activity_home_timeline" >
         </activity>
         <activity
-            android:name=".ComposePageActivity"
+            android:name=".Activities.ComposePageActivity"
             android:label="@string/title_activity_compose_page" >
         </activity>
     </application>

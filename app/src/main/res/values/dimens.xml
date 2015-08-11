@@ -4,4 +4,16 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="profile_img_size">50dp</dimen>
+    <dimen name="common_margin">16dp</dimen>
+    <dimen name="common_small_margin">10dp</dimen>
+    <dimen name="common_xs_margin">5dp</dimen>
+    <dimen name="twitter_icon_margin">60dp</dimen>
+    <dimen name="normal_text_size">16sp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
+
+    <dimen name="text_line_space">3sp</dimen>
+    <dimen name="twitter_comment_icon_size">20dp</dimen>
+    <dimen name="twitter_retweet_icon_size">25dp</dimen>
+    <dimen name="twitter_star_icon_size">23dp</dimen>
 </resources>

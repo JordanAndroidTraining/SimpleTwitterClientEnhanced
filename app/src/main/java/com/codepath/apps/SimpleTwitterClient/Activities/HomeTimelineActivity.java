@@ -1,27 +1,43 @@
-package com.codepath.apps.SimpleTwitterClient;
+package com.codepath.apps.SimpleTwitterClient.Activities;
 
+import android.content.Context;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
+import com.codepath.apps.SimpleTwitterClient.Adapters.HomeTimelineAdapter;
+import com.codepath.apps.SimpleTwitterClient.R;
+import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
+import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
+import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class HomeTimelineActivity extends ActionBarActivity {
 
     public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivityDevTag";
     private SimpleTwitterClient mClient;
+    private HomeTimelineAdapter mAdapter;
+    private ArrayList<TweetModel> mTweetList;
+    private ListView mHomeTimelineContainerLv;
+    private Context mSelf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_timeline);
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "HAHAHAGGG~~");
+        mHomeTimelineContainerLv = (ListView) findViewById(R.id.homeTimelineContainerLv);
+        mTweetList = new ArrayList<>();
+        mSelf = this;
         mClient = SimpleTwitterApplication.getRestClient();
         renderTimeline();
     }
@@ -34,6 +50,11 @@ public class HomeTimelineActivity extends ActionBarActivity {
                 Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onSuccess()");
                 //super.onSuccess(statusCode, headers, response);
                 Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, response.toString());
+                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,TweetModel.parseFromJSONArray(response).toString());
+
+                mTweetList.addAll(TweetModel.parseFromJSONArray(response));
+                mAdapter = new HomeTimelineAdapter(mSelf,0,mTweetList);
+                mHomeTimelineContainerLv.setAdapter(mAdapter);
             }
 
             @Override
