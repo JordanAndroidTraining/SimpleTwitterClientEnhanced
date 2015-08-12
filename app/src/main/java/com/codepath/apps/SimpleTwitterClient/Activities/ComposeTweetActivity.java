@@ -33,6 +33,7 @@ public class ComposeTweetActivity extends ActionBarActivity implements View.OnKe
     private EditText mComposeInputEt;
     private TextView mComposeRemainWordCountTv;
     private Button mSubmitBtn;
+    private ImageView mCloseBtnIv;
     private Context mSelfContext;
 
     @Override
@@ -49,10 +50,12 @@ public class ComposeTweetActivity extends ActionBarActivity implements View.OnKe
         mComposeInputEt = (EditText) findViewById(R.id.composeContentEt);
         mComposeRemainWordCountTv = (TextView) findViewById(R.id.composeRemainWordCountTv);
         mSubmitBtn = (Button) findViewById(R.id.composeSubmitBtn);
+        mCloseBtnIv = (ImageView) findViewById(R.id.composeCloseBtnIv);
 
         // Bind event
         mComposeInputEt.setOnKeyListener(this);
         mSubmitBtn.setOnClickListener(this);
+        mCloseBtnIv.setOnClickListener(this);
 
         // render it!
         renderComposePage();
@@ -90,8 +93,10 @@ public class ComposeTweetActivity extends ActionBarActivity implements View.OnKe
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(COMPOSE_TWEET_ACTIVITY_DEV_TAG,"processPostNewTweet|onFailure()|responseString: " + responseString);
+                Log.d(COMPOSE_TWEET_ACTIVITY_DEV_TAG, "processPostNewTweet|onFailure()|responseString: " + responseString);
                 Toast.makeText(mSelfContext,"Compose Tweet Error!",Toast.LENGTH_LONG).show();
+                setResult(RESULT_CANCELED, getIntent());
+                finish();
             }
         });
     }
@@ -111,9 +116,9 @@ public class ComposeTweetActivity extends ActionBarActivity implements View.OnKe
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -139,6 +144,10 @@ public class ComposeTweetActivity extends ActionBarActivity implements View.OnKe
         switch (view.getId()){
             case R.id.composeSubmitBtn:
                 processPostNewTweet(String.valueOf(mComposeInputEt.getText()));
+                break;
+            case R.id.composeCloseBtnIv:
+                setResult(RESULT_CANCELED,getIntent());
+                finish();
                 break;
         }
     }

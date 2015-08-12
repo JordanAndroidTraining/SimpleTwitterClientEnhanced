@@ -126,10 +126,13 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == COMPOSE_REQUEST_CODE) {
             Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|resultCode: " + resultCode + "data" + data.toString());
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|RESULT_OK");
-                renderTimeline(true);
+            switch (resultCode){
+                case RESULT_OK:
+                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|RESULT_OK");
+                    renderTimeline(true);
+                    break;
+                case RESULT_CANCELED:
+                    break;
             }
         }
     }
