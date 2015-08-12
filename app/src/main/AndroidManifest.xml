@@ -22,8 +22,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/TwitterActionBarTheme"
-        android:logo="@drawable/ic_launcher">
+        android:logo="@drawable/ic_launcher"
+        android:theme="@style/TwitterActionBarTheme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="RestClient.db" />
@@ -53,13 +53,17 @@
         </activity>
         <activity
             android:name=".Activities.HomeTimelineActivity"
-            android:label="@string/title_activity_home_timeline">
+            android:label="@string/title_activity_home_timeline" >
         </activity>
         <activity
             android:name=".Activities.ComposeTweetActivity"
             android:label="@string/title_activity_compose_tweet"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/NoActionBar">
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustResize" >
+        </activity>
+        <activity
+            android:name=".Activities.DetailViewActivity"
+            android:label="@string/title_activity_detail_view" >
         </activity>
     </application>
 

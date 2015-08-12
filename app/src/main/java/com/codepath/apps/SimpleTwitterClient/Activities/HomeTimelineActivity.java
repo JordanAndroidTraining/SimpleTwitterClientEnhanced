@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
+public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
 
     public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivityDevTag";
     public static final int COMPOSE_REQUEST_CODE = 999;
@@ -49,6 +51,7 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
         mSwipeRefreshContainer.setColorSchemeResources(R.color.twitter_blue);
         mHomeTimelineContainerLv = (ListView) findViewById(R.id.homeTimelineContainerLv);
         mHomeTimelineContainerLv.setOnScrollListener(this);
+        mHomeTimelineContainerLv.setOnItemClickListener(this);
         mTweetList = new ArrayList<>();
 
         mClient = SimpleTwitterApplication.getRestClient();
@@ -155,5 +158,11 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
             Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onScroll to loadmore|page: " + mLoadedPage);
             renderTimeline(false);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        Intent i = new Intent(this,DetailViewActivity.class);
+        startActivity(i);
     }
 }

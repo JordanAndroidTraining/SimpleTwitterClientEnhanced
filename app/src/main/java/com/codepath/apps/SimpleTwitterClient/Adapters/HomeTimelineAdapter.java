@@ -79,6 +79,7 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
 //        Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
         viewHolder.retweetCountTv.setText(String.valueOf(renderModel.getRetweetCount()));
         viewHolder.starCountTv.setText(String.valueOf(renderModel.getFavouritesCount()));
+//        convertView.setOnClickListener((View.OnClickListener) mContext);
         return convertView;
     }
 }

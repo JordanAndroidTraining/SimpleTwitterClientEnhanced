@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="@dimen/profile_img_size"
+        android:layout_height="@dimen/profile_img_size"
+        android:background="@color/twitter_middle_gray"
+        android:id="@+id/commentUserProfilePhotoIv"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="@dimen/common_margin"
+        android:layout_marginTop="@dimen/common_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name_placeholder"
+        android:id="@+id/commentUserNameTv"
+        android:textSize="@dimen/normal_text_size"
+        android:textColor="@color/twitter_black"
+        android:textStyle="bold"
+        android:layout_alignTop="@+id/commentUserProfilePhotoIv"
+        android:layout_toRightOf="@+id/commentUserProfilePhotoIv"
+        android:layout_toEndOf="@+id/commentUserProfilePhotoIv"
+        android:layout_marginLeft="@dimen/common_small_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_id_placeholder"
+        android:id="@+id/commentUserIdTv"
+        android:layout_alignTop="@+id/commentUserNameTv"
+        android:layout_toRightOf="@+id/commentUserNameTv"
+        android:layout_toEndOf="@+id/commentUserNameTv"
+        android:layout_marginLeft="@dimen/common_small_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_time_placeholder"
+        android:id="@+id/commentRelativeTimestampTv"
+        android:layout_alignTop="@+id/commentUserIdTv"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/common_margin" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/caption_placeholder"
+        android:id="@+id/textView"
+        android:layout_below="@+id/commentUserNameTv"
+        android:layout_alignLeft="@+id/commentUserNameTv"
+        android:layout_alignStart="@+id/commentUserNameTv"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="@dimen/common_margin"
+        android:layout_marginTop="@dimen/common_xs_margin"
+        android:textSize="@dimen/normal_text_size"
+        android:textColor="@color/twitter_black"/>
+</RelativeLayout>

@@ -8,7 +8,9 @@
     <dimen name="common_margin">16dp</dimen>
     <dimen name="common_small_margin">10dp</dimen>
     <dimen name="common_xs_margin">5dp</dimen>
+    <dimen name="common_xxs_margin">2dp</dimen>
     <dimen name="twitter_icon_margin">60dp</dimen>
+    <dimen name="large_text_size">24sp</dimen>
     <dimen name="normal_text_size">16sp</dimen>
     <dimen name="small_text_size">12sp</dimen>
 

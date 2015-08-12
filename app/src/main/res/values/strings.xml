@@ -18,4 +18,8 @@
     <string name="compose_tweet_hint">What\'s new?</string>
     <string name="compose_submit_btn_wording">Post</string>
     <string name="compose_remaining_word_count">140</string>
+    <string name="title_activity_detail_view">Replies</string>
+    <string name="retweet_wording">retweet</string>
+    <string name="favorite_wording">favorite</string>
+    <string name="date_time_placeholder">2015/01/01</string>
 </resources>
