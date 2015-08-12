@@ -27,7 +27,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, View.OnClickListener, AdapterView.OnItemClickListener {
 
     public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivityDevTag";
     public static final int COMPOSE_REQUEST_CODE = 999;
@@ -162,7 +162,20 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-        Intent i = new Intent(this,DetailViewActivity.class);
+//        Intent i = new Intent(this,DetailViewActivity.class);
+//        startActivity(i);
+        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,mTweetList.get(position).getClass().toString());
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        int position = mHomeTimelineContainerLv.getPositionForView(view);
+        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "IMAGE view clicked!| position: " + position);
+        Intent i = new Intent(this,FullScreenImageViewActivity.class);
+        i.putExtra("imgUrl",mTweetList.get(position).getTweetImgUrl());
+        i.putExtra("retweetCount", String.valueOf(mTweetList.get(position).getRetweetCount()));
+        i.putExtra("favoriteCount",String.valueOf(mTweetList.get(position).getFavouritesCount()));
         startActivity(i);
     }
 }

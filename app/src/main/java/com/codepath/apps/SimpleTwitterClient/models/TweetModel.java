@@ -1,5 +1,6 @@
 package com.codepath.apps.SimpleTwitterClient.models;
 
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
@@ -8,18 +9,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by jordanhsu on 8/11/15.
  */
-public class TweetModel {
+public class TweetModel implements Serializable {
 
     public static final String TWEET_MODEL_DEV_TAG = "TweetModelDevTag";
     private String caption = "";
     private String relativeTimestamp = "";
-    private String tweetImgUrl = "";
+    private String tweetImgUrl = null;
     private int retweetCount = 0;
     private int favouritesCount = 0;
     private List<HashTagModel> hashTagList;
@@ -38,7 +40,20 @@ public class TweetModel {
            returnModel.setFavouritesCount(json.optInt("favorite_count"));
         }
         if(GeneralUtils.checkJSONObjectCol("created_at",json)){
+            Log.d(TWEET_MODEL_DEV_TAG,"in created_at");
             returnModel.setRelativeTimestamp(GeneralUtils.getRelativeTimeAgo(json.optString("created_at")));
+        }
+        if(GeneralUtils.checkJSONObjectCol("entities",json)){
+            JSONObject entityJson = json.optJSONObject("entities");
+            if(GeneralUtils.checkJSONObjectCol("media",entityJson)){
+                JSONArray mediaList = entityJson.optJSONArray("media");
+                if(mediaList.length() > 0){
+                    JSONObject firstMedia = mediaList.optJSONObject(0);
+                    if(GeneralUtils.checkJSONObjectCol("media_url",firstMedia)){
+                        returnModel.setTweetImgUrl(firstMedia.optString("media_url"));
+                    }
+                }
+            }
         }
         if(GeneralUtils.checkJSONObjectCol("user",json)){
             try {
@@ -47,6 +62,7 @@ public class TweetModel {
                 e.printStackTrace();
             }
         }
+
         // TODO: memtion user, hash tag!!
 
         return  returnModel;

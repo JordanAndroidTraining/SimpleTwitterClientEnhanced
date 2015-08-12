@@ -1,6 +1,7 @@
 package com.codepath.apps.SimpleTwitterClient.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,9 +66,14 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        // clear tweet img
+        viewHolder.tweetImgIv.setVisibility(View.GONE);
+        viewHolder.tweetImgIv.setImageResource(0);
+
+
         TweetModel renderModel = mHomeTimelineList.get(position);
 
-        Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG,"viewHolder: " + viewHolder.toString());
+        Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "viewHolder: " + viewHolder.toString());
         Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "renderModel: " + renderModel.getUser().getProfilePhotoUrl());
 
         // set view content
@@ -76,10 +82,16 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
         viewHolder.userIdTv.setText(renderModel.getUser().getUserID());
         viewHolder.relativeTimestampTv.setText(renderModel.getRelativeTimestamp());
         viewHolder.captionTv.setText(renderModel.getCaption());
+        if(renderModel.getTweetImgUrl() != null){
+            viewHolder.tweetImgIv.setVisibility(View.VISIBLE);
+            Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
+            viewHolder.tweetImgIv.setOnClickListener((View.OnClickListener) mContext);
+        }
 //        Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
         viewHolder.retweetCountTv.setText(String.valueOf(renderModel.getRetweetCount()));
         viewHolder.starCountTv.setText(String.valueOf(renderModel.getFavouritesCount()));
 //        convertView.setOnClickListener((View.OnClickListener) mContext);
+
         return convertView;
     }
 }

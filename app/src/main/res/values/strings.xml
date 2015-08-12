@@ -22,4 +22,5 @@
     <string name="retweet_wording">retweet</string>
     <string name="favorite_wording">favorite</string>
     <string name="date_time_placeholder">2015/01/01</string>
+    <string name="title_activity_full_screen_image_view">FullScreenImageViewActivity</string>
 </resources>
