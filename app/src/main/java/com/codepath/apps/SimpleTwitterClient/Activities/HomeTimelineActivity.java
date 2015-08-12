@@ -1,6 +1,7 @@
 package com.codepath.apps.SimpleTwitterClient.Activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -21,19 +22,19 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivityDevTag";
+    public static final int COMPOSE_REQUEST_CODE = 999;
     private SimpleTwitterClient mClient;
     private HomeTimelineAdapter mAdapter;
     private ArrayList<TweetModel> mTweetList;
     private ListView mHomeTimelineContainerLv;
     private SwipeRefreshLayout mSwipeRefreshContainer;
-    private Context mSelf;
+    private Context mSelfContext;
     private int mLoadedPage = 0;
     private boolean mIsLoading = false;
     private boolean mNeedLoadMore = true;
@@ -42,7 +43,7 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_timeline);
-        mSelf = this;
+        mSelfContext = this;
         mSwipeRefreshContainer = (SwipeRefreshLayout) findViewById(R.id.homeTimelineSwipeRefreshContainer);
         mSwipeRefreshContainer.setOnRefreshListener(this);
         mSwipeRefreshContainer.setColorSchemeResources(R.color.twitter_blue);
@@ -56,7 +57,7 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
 
 
     public void renderTimeline(final boolean clearAdapter){
-        if(!GeneralUtils.isNetworkAvailable(mSelf)){
+        if(!GeneralUtils.isNetworkAvailable(mSelfContext)){
             return;
         }
         mIsLoading = true;
@@ -68,7 +69,7 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
                 if(clearAdapter){
                     mTweetList.clear();
                     mTweetList.addAll(TweetModel.parseFromJSONArray(response));
-                    mAdapter = new HomeTimelineAdapter(mSelf, 0, mTweetList);
+                    mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
                     mHomeTimelineContainerLv.setAdapter(mAdapter);
                     mSwipeRefreshContainer.setRefreshing(false);
                 }
@@ -85,9 +86,9 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline()|FAILED");
+                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline()|FAILED|responseString: " + responseString);
                 mSwipeRefreshContainer.setRefreshing(false);
-                Toast.makeText(mSelf, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
+                Toast.makeText(mSelfContext, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
                 mIsLoading = false;
             }
         });
@@ -97,6 +98,8 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home_timeline, menu);
+        //MenuItem composeBtn = menu.findItem(R.id.action_compose);
+        //composeBtn.setOnMenuItemClickListener();
         return true;
     }
 
@@ -108,11 +111,27 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_compose) {
+            Intent i = new Intent(this, ComposeTweetActivity.class);
+            //startActivity(i);
+            startActivityForResult(i, COMPOSE_REQUEST_CODE);
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == COMPOSE_REQUEST_CODE) {
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|resultCode: " + resultCode + "data" + data.toString());
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|RESULT_OK");
+                renderTimeline(true);
+            }
+        }
     }
 
     @Override

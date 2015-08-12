@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.codepath.apps.SimpleTwitterClient.Activities.ComposeTweetActivity">
+
+    <ImageView
+        android:layout_width="@dimen/compose_profile_photo_size"
+        android:layout_height="@dimen/compose_profile_photo_size"
+        android:id="@+id/composeProfilePhotoIv"
+        android:background="@color/twitter_middle_gray"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="@dimen/compose_close_btn_size"
+        android:layout_height="@dimen/compose_close_btn_size"
+        android:id="@+id/composeCloseBtnIv"
+        android:src="@drawable/ic_twitter_close_btn"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/compose_tweet_hint"
+        android:gravity="top"
+        android:id="@+id/composeContentEt"
+        android:layout_below="@+id/composeProfilePhotoIv"
+        android:layout_above="@+id/composeSubmitBtn"
+        android:textColorLink="@color/twitter_blue"
+        android:maxLength="@integer/twitter_compose_word_limit"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/composeRemainWordCountTv"
+        android:text="@string/compose_remaining_word_count"
+        android:layout_alignBottom="@+id/composeSubmitBtn"
+        android:layout_toLeftOf="@+id/composeSubmitBtn"
+        android:layout_toStartOf="@+id/composeSubmitBtn"
+        android:textSize="@dimen/normal_text_size"
+        android:layout_below="@+id/composeContentEt"
+        android:gravity="center"
+        android:layout_marginRight="@dimen/common_small_margin"/>
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:text="@string/compose_submit_btn_wording"
+        android:background="@color/twitter_blue"
+        android:textColor="@color/white"
+        android:id="@+id/composeSubmitBtn"
+        android:layout_alignRight="@+id/composeContentEt"
+        android:layout_alignEnd="@+id/composeContentEt"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

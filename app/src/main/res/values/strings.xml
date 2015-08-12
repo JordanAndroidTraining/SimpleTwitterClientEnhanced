@@ -6,11 +6,16 @@
     <string name="title_activity_home_timeline">HomeTimelineActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_compose">Compose</string>
     <string name="title_activity_compose_page">ComposePageActivity</string>
     <string name="user_name_placeholder">Maroon 5</string>
     <string name="user_id_placeholder">\@maroon5</string>
     <string name="caption_placeholder">Freedom is being able to live your dream the way tou want to live it #MYFREEDOM</string>
     <string name="relative_timestamp_placeholder">6 days</string>
     <string name="count_placeholder">9999</string>
+    <string name="title_activity_compose_tweet">ComposeTweetActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="compose_tweet_hint">What\'s new?</string>
+    <string name="compose_submit_btn_wording">Post</string>
+    <string name="compose_remaining_word_count">140</string>
 </resources>

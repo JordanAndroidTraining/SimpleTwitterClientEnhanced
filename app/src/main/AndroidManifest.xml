@@ -55,8 +55,9 @@
             android:label="@string/title_activity_home_timeline" >
         </activity>
         <activity
-            android:name=".Activities.ComposePageActivity"
-            android:label="@string/title_activity_compose_page" >
+            android:name=".Activities.ComposeTweetActivity"
+            android:label="@string/title_activity_compose_tweet"
+            android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 
