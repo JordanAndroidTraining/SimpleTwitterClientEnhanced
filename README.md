@@ -45,3 +45,4 @@ The following **additional** features are implemented:
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
+- [ActiveAndroid](http://www.activeandroid.com/) - ActiveAndroid is an active record style ORM with SQLite
