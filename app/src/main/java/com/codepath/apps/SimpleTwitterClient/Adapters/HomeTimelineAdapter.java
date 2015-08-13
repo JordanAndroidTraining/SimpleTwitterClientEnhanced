@@ -73,20 +73,23 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
 
         TweetModel renderModel = mHomeTimelineList.get(position);
 
-        Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "viewHolder: " + viewHolder.toString());
-        Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "renderModel: " + renderModel.getUser().getProfilePhotoUrl());
+        //Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "viewHolder: " + viewHolder.toString());
+        //Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "renderModel: " + renderModel.getUser().getProfilePhotoUrl());
 
         // set view content
-        Picasso.with(mContext).load(renderModel.getUser().getProfilePhotoUrl()).into(viewHolder.profilePhotoIv);
-        viewHolder.userNameTv.setText(renderModel.getUser().getUserName());
-        viewHolder.userIdTv.setText(renderModel.getUser().getUserID());
-        viewHolder.relativeTimestampTv.setText(renderModel.getRelativeTimestamp());
-        viewHolder.captionTv.setText(renderModel.getCaption());
-        if(renderModel.getTweetImgUrl() != null){
+        if(renderModel.getUser() != null){
+            Picasso.with(mContext).load(renderModel.getUser().getProfilePhotoUrl()).into(viewHolder.profilePhotoIv);
+            viewHolder.userNameTv.setText(renderModel.getUser().getUserName());
+            viewHolder.userIdTv.setText(renderModel.getUser().getUserID());
+        }
+
+        if(renderModel.getTweetImgUrl() != ""){
             viewHolder.tweetImgIv.setVisibility(View.VISIBLE);
             Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
             viewHolder.tweetImgIv.setOnClickListener((View.OnClickListener) mContext);
         }
+        viewHolder.relativeTimestampTv.setText(renderModel.getRelativeTimestamp());
+        viewHolder.captionTv.setText(renderModel.getCaption());
 //        Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
         viewHolder.retweetCountTv.setText(String.valueOf(renderModel.getRetweetCount()));
         viewHolder.starCountTv.setText(String.valueOf(renderModel.getFavouritesCount()));

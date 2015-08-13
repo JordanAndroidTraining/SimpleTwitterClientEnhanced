@@ -14,6 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.activeandroid.Model;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.codepath.apps.SimpleTwitterClient.Adapters.HomeTimelineAdapter;
 import com.codepath.apps.SimpleTwitterClient.R;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
@@ -26,6 +29,7 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -54,13 +58,31 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
         mHomeTimelineContainerLv.setOnItemClickListener(this);
         mTweetList = new ArrayList<>();
 
+        //set icon
+        getSupportActionBar().setLogo(R.mipmap.ic_twitter_log_white);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         mClient = SimpleTwitterApplication.getRestClient();
         renderTimeline(true);
+
+        List<Model> testLoadDataList;
+        testLoadDataList = new Select().from(TweetModel.class).execute();
+        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "testLoadDataList: " + testLoadDataList.toString());
+
     }
 
 
     public void renderTimeline(final boolean clearAdapter){
         if(!GeneralUtils.isNetworkAvailable(mSelfContext)){
+            //loadTweetData();
+//            for (TweetModel tweet : mTweetList){
+//                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getUser());
+//                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getCaption());
+//            }
+//            mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
+//            mHomeTimelineContainerLv.setAdapter(mAdapter);
+//            mSwipeRefreshContainer.setRefreshing(false);
             return;
         }
         mIsLoading = true;
@@ -75,6 +97,12 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
                     mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
                     mHomeTimelineContainerLv.setAdapter(mAdapter);
                     mSwipeRefreshContainer.setRefreshing(false);
+
+
+                    //saveTweetData();
+                    //loadTweetData();
+
+
                 }
                 else {
                     mTweetList.addAll(TweetModel.parseFromJSONArray(response));
@@ -95,6 +123,33 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
                 mIsLoading = false;
             }
         });
+    }
+
+    public void saveTweetData(){
+        //Clear old data
+        new Delete().from(TweetModel.class).execute();
+        //Add new data
+        for(TweetModel tweet: mTweetList){
+            tweet.save();
+        }
+    }
+
+    public void loadTweetData(){
+        List<TweetModel> cacheTweetDataList;
+        cacheTweetDataList = new Select().from(TweetModel.class).execute();
+        for (TweetModel tweet : cacheTweetDataList){
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getUser());
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet Caption: " + tweet.getCaption());
+        }
+
+//        mTweetList.clear();
+//        mTweetList.addAll(cacheTweetDataList);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        saveTweetData();
     }
 
     @Override

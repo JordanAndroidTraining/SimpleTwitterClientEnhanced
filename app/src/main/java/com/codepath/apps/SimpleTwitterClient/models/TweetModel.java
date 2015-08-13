@@ -3,6 +3,9 @@ package com.codepath.apps.SimpleTwitterClient.models;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 
 import org.json.JSONArray;
@@ -16,17 +19,28 @@ import java.util.List;
 /**
  * Created by jordanhsu on 8/11/15.
  */
-public class TweetModel implements Serializable {
+@Table(name = "tweets")
+public class TweetModel extends Model{
 
     public static final String TWEET_MODEL_DEV_TAG = "TweetModelDevTag";
+
+    @Column(name = "caption")
     private String caption = "";
+
+    @Column(name = "relative_time_stamp")
     private String relativeTimestamp = "";
-    private String tweetImgUrl = null;
+
+    @Column(name = "tweet_img_url")
+    private String tweetImgUrl = "";
+
+    @Column(name = "retweet_count")
     private int retweetCount = 0;
+
+    @Column(name = "favorite_count")
     private int favouritesCount = 0;
-    private List<HashTagModel> hashTagList;
-    private List<MentionUserModel> mentonUsersList;
-    private UserModel user;
+
+    @Column(name = "user", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
+    private UserModel user = new UserModel();
 
     public static TweetModel parseFromJSONObject(JSONObject json){
         TweetModel returnModel = new TweetModel();
@@ -107,22 +121,6 @@ public class TweetModel implements Serializable {
 
     public void setRelativeTimestamp(String relativeTimestamp) {
         this.relativeTimestamp = relativeTimestamp;
-    }
-
-    public List<HashTagModel> getHashTagList() {
-        return hashTagList;
-    }
-
-    public void setHashTagList(List<HashTagModel> hashTagList) {
-        this.hashTagList = hashTagList;
-    }
-
-    public List<MentionUserModel> getMentonUsersList() {
-        return mentonUsersList;
-    }
-
-    public void setMentonUsersList(List<MentionUserModel> mentonUsersList) {
-        this.mentonUsersList = mentonUsersList;
     }
 
     public int getRetweetCount() {

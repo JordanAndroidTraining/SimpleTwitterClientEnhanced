@@ -17,6 +17,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SimpleTwitterClie
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
 	}
 
 
@@ -34,6 +35,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SimpleTwitterClie
 		Toast.makeText(this,"Login Success!",Toast.LENGTH_LONG).show();
 		Intent i = new Intent(this, HomeTimelineActivity.class);
 		startActivity(i);
+		finish();
 	}
 
 	// OAuth authentication flow failed, handle the error

@@ -1,5 +1,8 @@
 package com.codepath.apps.SimpleTwitterClient.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 
 import org.json.JSONObject;
@@ -7,10 +10,16 @@ import org.json.JSONObject;
 /**
  * Created by jordanhsu on 8/12/15.
  */
-public class UserModel {
-    private String userName;
-    private String userID;
-    private String profilePhotoUrl;
+@Table(name = "users")
+public class UserModel extends Model {
+    @Column(name = "user_name")
+    private String userName = "";
+
+    @Column(name = "user_id")
+    private String userID = "";
+
+    @Column(name = "profile_photo_url")
+    private String profilePhotoUrl = "";
 
     public String getUserName() {
         return userName;

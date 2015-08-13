@@ -39,6 +39,7 @@ The following **additional** features are implemented:
 * [x] support full screen image view
 
 ## Video Walkthrough 
+![Video Walkthrough](demo.gif)
 
 ## Open-source libraries used
 
