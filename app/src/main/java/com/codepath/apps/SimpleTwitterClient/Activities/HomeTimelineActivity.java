@@ -23,6 +23,7 @@ import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
+import com.codepath.apps.SimpleTwitterClient.models.UserModel;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -66,90 +67,92 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
         mClient = SimpleTwitterApplication.getRestClient();
         renderTimeline(true);
 
-        List<Model> testLoadDataList;
-        testLoadDataList = new Select().from(TweetModel.class).execute();
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "testLoadDataList: " + testLoadDataList.toString());
 
     }
 
 
     public void renderTimeline(final boolean clearAdapter){
         if(!GeneralUtils.isNetworkAvailable(mSelfContext)){
-            //loadTweetData();
-//            for (TweetModel tweet : mTweetList){
-//                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getUser());
-//                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getCaption());
-//            }
-//            mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
-//            mHomeTimelineContainerLv.setAdapter(mAdapter);
-//            mSwipeRefreshContainer.setRefreshing(false);
-            return;
+            // load data from SQLite
+            mTweetList.clear();
+            mTweetList = loadTweetData();
+
+            // render it!
+            mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
+            mHomeTimelineContainerLv.setAdapter(mAdapter);
+            mSwipeRefreshContainer.setRefreshing(false);
         }
-        mIsLoading = true;
-        mClient.getHomeTimelinePosts(mLoadedPage, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline|onSuccess()");
-                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline|response: " + response.toString());
-                if(clearAdapter){
-                    mTweetList.clear();
-                    mTweetList.addAll(TweetModel.parseFromJSONArray(response));
-                    mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
-                    mHomeTimelineContainerLv.setAdapter(mAdapter);
-                    mSwipeRefreshContainer.setRefreshing(false);
-
-
-                    //saveTweetData();
-                    //loadTweetData();
-
-
-                }
-                else {
-                    mTweetList.addAll(TweetModel.parseFromJSONArray(response));
-                    mAdapter.notifyDataSetChanged();
-                    mIsLoading = false;
-                    if (response.length() == 0){
-                        mNeedLoadMore = false;
+        else {
+            mIsLoading = true;
+            mClient.getHomeTimelinePosts(mLoadedPage, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline|onSuccess()");
+                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline|response: " + response.toString());
+                    if(clearAdapter){
+                        mTweetList.clear();
+                        mTweetList.addAll(TweetModel.parseFromJSONArray(response));
+                        mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
+                        mHomeTimelineContainerLv.setAdapter(mAdapter);
                     }
+                    else {
+                        mTweetList.addAll(TweetModel.parseFromJSONArray(response));
+                        mAdapter.notifyDataSetChanged();
+                        mIsLoading = false;
+                        if (response.length() == 0){
+                            mNeedLoadMore = false;
+                        }
+                    }
+                    saveTweetData(mTweetList);
+                    loadTweetData();
+                    mSwipeRefreshContainer.setRefreshing(false);
+                    mIsLoading = false;
                 }
-                mIsLoading = false;
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline()|FAILED|responseString: " + responseString);
-                mSwipeRefreshContainer.setRefreshing(false);
-                Toast.makeText(mSelfContext, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
-                mIsLoading = false;
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline()|FAILED|responseString: " + responseString);
+                    mSwipeRefreshContainer.setRefreshing(false);
+                    Toast.makeText(mSelfContext, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
+                    mIsLoading = false;
+                }
+            });
+        }
     }
 
-    public void saveTweetData(){
+    public static void saveTweetData(ArrayList<TweetModel> tweetList){
+        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "saveTweetData");
         //Clear old data
+        new Delete().from(UserModel.class).execute();
         new Delete().from(TweetModel.class).execute();
+
         //Add new data
-        for(TweetModel tweet: mTweetList){
+        for(TweetModel tweet: tweetList){
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"saveTweetData|catption: "+ tweet.getCaption());
+
+            //Important! must save reference object first
+            tweet.getUser().save();
+            // save tweet
             tweet.save();
         }
     }
 
-    public void loadTweetData(){
+    public static ArrayList<TweetModel> loadTweetData(){
+        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData called");
         List<TweetModel> cacheTweetDataList;
+        ArrayList<TweetModel> returnModel = new ArrayList<>();
         cacheTweetDataList = new Select().from(TweetModel.class).execute();
+        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|cacheTweetDataList: " + cacheTweetDataList);
+
         for (TweetModel tweet : cacheTweetDataList){
             Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getUser());
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet Caption: " + tweet.getCaption());
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|imageURL: "+tweet.getTweetImgUrl());
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User name: " + tweet.getUser().getUserName());
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User id: " + tweet.getUser().getUserID());
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "loadTweetData|tweet Caption: " + tweet.getCaption());
+            returnModel.add(tweet);
         }
-
-//        mTweetList.clear();
-//        mTweetList.addAll(cacheTweetDataList);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        saveTweetData();
+        return returnModel;
     }
 
     @Override

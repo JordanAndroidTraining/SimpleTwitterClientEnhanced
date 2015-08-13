@@ -6,6 +6,7 @@ import android.util.Log;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 
 import org.json.JSONArray;
@@ -41,6 +42,10 @@ public class TweetModel extends Model{
 
     @Column(name = "user", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     private UserModel user = new UserModel();
+
+    public TweetModel(){
+        super();
+    }
 
     public static TweetModel parseFromJSONObject(JSONObject json){
         TweetModel returnModel = new TweetModel();

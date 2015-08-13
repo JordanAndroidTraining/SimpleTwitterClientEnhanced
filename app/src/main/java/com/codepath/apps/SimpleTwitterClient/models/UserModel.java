@@ -21,6 +21,10 @@ public class UserModel extends Model {
     @Column(name = "profile_photo_url")
     private String profilePhotoUrl = "";
 
+    public UserModel(){
+        super();
+    }
+
     public String getUserName() {
         return userName;
     }

@@ -83,8 +83,9 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
             viewHolder.userIdTv.setText(renderModel.getUser().getUserID());
         }
 
-        if(renderModel.getTweetImgUrl() != ""){
+        if(!renderModel.getTweetImgUrl().isEmpty()){
             viewHolder.tweetImgIv.setVisibility(View.VISIBLE);
+            Log.d("JordanTestImageURl", String.valueOf(renderModel.getTweetImgUrl()));
             Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
             viewHolder.tweetImgIv.setOnClickListener((View.OnClickListener) mContext);
         }
