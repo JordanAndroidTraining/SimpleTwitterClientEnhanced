@@ -1,7 +1,13 @@
 package com.codepath.apps.SimpleTwitterClient.Activities;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,10 +20,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.SimpleTwitterClient.Adapters.HomeTimelineAdapter;
+import com.codepath.apps.SimpleTwitterClient.Adapters.MainContainerPageAdapter;
+import com.codepath.apps.SimpleTwitterClient.Fragments.TweetListFragment;
 import com.codepath.apps.SimpleTwitterClient.R;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
@@ -32,127 +40,36 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, View.OnClickListener, AdapterView.OnItemClickListener {
+public class HomeTimelineActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-    public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivityDevTag";
+    public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivity";
     public static final int COMPOSE_REQUEST_CODE = 999;
-    private SimpleTwitterClient mClient;
-    private HomeTimelineAdapter mAdapter;
-    private ArrayList<TweetModel> mTweetList;
-    private ListView mHomeTimelineContainerLv;
-    private SwipeRefreshLayout mSwipeRefreshContainer;
-    private Context mSelfContext;
-    private int mLoadedPage = 0;
-    private boolean mIsLoading = false;
-    private boolean mNeedLoadMore = true;
+    private FragmentManager mFm;
+    private MainContainerPageAdapter mPageAdapter;
+    private ViewPager mVp;
+    private PagerSlidingTabStrip mPts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_timeline);
-        mSelfContext = this;
-        mSwipeRefreshContainer = (SwipeRefreshLayout) findViewById(R.id.homeTimelineSwipeRefreshContainer);
-        mSwipeRefreshContainer.setOnRefreshListener(this);
-        mSwipeRefreshContainer.setColorSchemeResources(R.color.twitter_blue);
-        mHomeTimelineContainerLv = (ListView) findViewById(R.id.homeTimelineContainerLv);
-        mHomeTimelineContainerLv.setOnScrollListener(this);
-        mHomeTimelineContainerLv.setOnItemClickListener(this);
-        mTweetList = new ArrayList<>();
 
         //set icon
         getSupportActionBar().setLogo(R.mipmap.ic_twitter_log_white);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
-        mClient = SimpleTwitterApplication.getRestClient();
-        renderTimeline(true);
+        // get view pager
+        mVp = (ViewPager) findViewById(R.id.mainContainerVp);
 
+        // get fragmentManager && set to viewpager adapter
+        mFm = getSupportFragmentManager();
+        mPageAdapter = new MainContainerPageAdapter(mFm);
+        mVp.setAdapter(mPageAdapter);
 
-    }
-
-
-    public void renderTimeline(final boolean clearAdapter){
-        if(!GeneralUtils.isNetworkAvailable(mSelfContext)){
-            // load data from SQLite
-            mTweetList.clear();
-            mTweetList = loadTweetData();
-
-            // render it!
-            mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
-            mHomeTimelineContainerLv.setAdapter(mAdapter);
-            mSwipeRefreshContainer.setRefreshing(false);
-        }
-        else {
-            mIsLoading = true;
-            mClient.getHomeTimelinePosts(mLoadedPage, new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline|onSuccess()");
-                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline|response: " + response.toString());
-                    if(clearAdapter){
-                        mTweetList.clear();
-                        mTweetList.addAll(TweetModel.parseFromJSONArray(response));
-                        mAdapter = new HomeTimelineAdapter(mSelfContext, 0, mTweetList);
-                        mHomeTimelineContainerLv.setAdapter(mAdapter);
-                    }
-                    else {
-                        mTweetList.addAll(TweetModel.parseFromJSONArray(response));
-                        mAdapter.notifyDataSetChanged();
-                        mIsLoading = false;
-                        if (response.length() == 0){
-                            mNeedLoadMore = false;
-                        }
-                    }
-                    saveTweetData(mTweetList);
-                    loadTweetData();
-                    mSwipeRefreshContainer.setRefreshing(false);
-                    mIsLoading = false;
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "renderTimeline()|FAILED|responseString: " + responseString);
-                    mSwipeRefreshContainer.setRefreshing(false);
-                    Toast.makeText(mSelfContext, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
-                    mIsLoading = false;
-                }
-            });
-        }
-    }
-
-    public static void saveTweetData(ArrayList<TweetModel> tweetList){
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "saveTweetData");
-        //Clear old data
-        new Delete().from(UserModel.class).execute();
-        new Delete().from(TweetModel.class).execute();
-
-        //Add new data
-        for(TweetModel tweet: tweetList){
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"saveTweetData|catption: "+ tweet.getCaption());
-
-            //Important! must save reference object first
-            tweet.getUser().save();
-            // save tweet
-            tweet.save();
-        }
-    }
-
-    public static ArrayList<TweetModel> loadTweetData(){
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData called");
-        List<TweetModel> cacheTweetDataList;
-        ArrayList<TweetModel> returnModel = new ArrayList<>();
-        cacheTweetDataList = new Select().from(TweetModel.class).execute();
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|cacheTweetDataList: " + cacheTweetDataList);
-
-        for (TweetModel tweet : cacheTweetDataList){
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User: " + tweet.getUser());
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|imageURL: "+tweet.getTweetImgUrl());
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User name: " + tweet.getUser().getUserName());
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"loadTweetData|tweet User id: " + tweet.getUser().getUserID());
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "loadTweetData|tweet Caption: " + tweet.getCaption());
-            returnModel.add(tweet);
-        }
-        return returnModel;
+        // set tabstrip title
+//        mPts = (PagerSlidingTabStrip) findViewById(R.id.mainContainerVpHeaderPts);
+//        mPts.setViewPager(mVp);
     }
 
     @Override
@@ -186,11 +103,12 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == COMPOSE_REQUEST_CODE) {
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|resultCode: " + resultCode + "data" + data.toString());
+            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|resultCode: " + resultCode + "data" + data);
             switch (resultCode){
                 case RESULT_OK:
-                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onActivityResult()|RESULT_OK");
-                    renderTimeline(true);
+                    Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "onActivityResult()|RESULT_OK");
+//                    renderTimeline(true);
+
                     break;
                 case RESULT_CANCELED:
                     break;
@@ -198,42 +116,12 @@ public class HomeTimelineActivity extends ActionBarActivity implements SwipeRefr
         }
     }
 
-    @Override
-    public void onRefresh() {
-        mLoadedPage = 0;
-        renderTimeline(true);
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-        // do nothing!
-    }
-
-    @Override
-    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if(firstVisibleItem + visibleItemCount >= totalItemCount && !mIsLoading && mNeedLoadMore && totalItemCount != 0) {
-            mLoadedPage++;
-            Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,"onScroll to loadmore|page: " + mLoadedPage);
-            renderTimeline(false);
-        }
-    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 //        Intent i = new Intent(this,DetailViewActivity.class);
 //        startActivity(i);
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,mTweetList.get(position).getClass().toString());
+//        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,mTweetList.get(position).getClass().toString());
     }
 
-    @Override
-    public void onClick(View view) {
-
-        int position = mHomeTimelineContainerLv.getPositionForView(view);
-        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "IMAGE view clicked!| position: " + position);
-        Intent i = new Intent(this,FullScreenImageViewActivity.class);
-        i.putExtra("imgUrl",mTweetList.get(position).getTweetImgUrl());
-        i.putExtra("retweetCount", String.valueOf(mTweetList.get(position).getRetweetCount()));
-        i.putExtra("favoriteCount",String.valueOf(mTweetList.get(position).getFavouritesCount()));
-        startActivity(i);
-    }
 }

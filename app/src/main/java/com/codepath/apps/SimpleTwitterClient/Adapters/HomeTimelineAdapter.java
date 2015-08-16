@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.SimpleTwitterClient.Activities.FullScreenImageViewActivity;
 import com.codepath.apps.SimpleTwitterClient.R;
 import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
 import com.squareup.picasso.Picasso;
@@ -43,10 +44,9 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "Convert View is null");
             convertView = LayoutInflater.from(mContext).inflate(R.layout.home_timeline_item,parent,false);
             viewHolder = new ViewHolder();
 
@@ -71,7 +71,7 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
         viewHolder.tweetImgIv.setImageResource(0);
 
 
-        TweetModel renderModel = mHomeTimelineList.get(position);
+        final TweetModel renderModel = mHomeTimelineList.get(position);
 
         //Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "viewHolder: " + viewHolder.toString());
         //Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "renderModel: " + renderModel.getUser().getProfilePhotoUrl());
@@ -87,7 +87,16 @@ public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
             viewHolder.tweetImgIv.setVisibility(View.VISIBLE);
             Log.d("JordanTestImageURl", String.valueOf(renderModel.getTweetImgUrl()));
             Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
-            viewHolder.tweetImgIv.setOnClickListener((View.OnClickListener) mContext);
+            viewHolder.tweetImgIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(mContext,FullScreenImageViewActivity.class);
+                    i.putExtra("imgUrl",   renderModel.getTweetImgUrl());
+                    i.putExtra("retweetCount", String.valueOf(renderModel.getRetweetCount()));
+                    i.putExtra("favoriteCount", String.valueOf(renderModel.getFavouritesCount()));
+                    mContext.startActivity(i);
+                }
+            });
         }
         viewHolder.relativeTimestampTv.setText(renderModel.getRelativeTimestamp());
         viewHolder.captionTv.setText(renderModel.getCaption());
