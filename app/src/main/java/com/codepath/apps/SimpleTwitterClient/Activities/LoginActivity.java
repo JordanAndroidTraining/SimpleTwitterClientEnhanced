@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
-import com.codepath.apps.SimpleTwitterClient.Activities.HomeTimelineActivity;
 import com.codepath.apps.SimpleTwitterClient.R;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
@@ -33,7 +32,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<SimpleTwitterClie
 	@Override
 	public void onLoginSuccess() {
 		Toast.makeText(this,"Login Success!",Toast.LENGTH_LONG).show();
-		Intent i = new Intent(this, HomeTimelineActivity.class);
+		Intent i = new Intent(this, MainTimelineContainerActivity.class);
 		startActivity(i);
 		finish();
 	}

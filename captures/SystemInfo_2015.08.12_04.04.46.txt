@@ -483,8 +483,8 @@ Display #0 (activities from top to bottom):
     Task id #971
       TaskRecord{26663487 #971 A=com.codepath.apps.restclienttemplate U=0 sz=2}
       Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.LoginActivity }
-        Hist #1: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.HomeTimelineActivity t971}
-          Intent { cmp=com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.HomeTimelineActivity }
+        Hist #1: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.MainTimelineContainerActivity t971}
+          Intent { cmp=com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.MainTimelineContainerActivity }
           ProcessRecord{14679223 4918:com.codepath.apps.restclienttemplate/u0a66}
         Hist #0: ActivityRecord{574ad74 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.LoginActivity t971}
           Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.LoginActivity }
@@ -492,10 +492,10 @@ Display #0 (activities from top to bottom):
 
     Running activities (most recent first):
       TaskRecord{26663487 #971 A=com.codepath.apps.restclienttemplate U=0 sz=2}
-        Run #1: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.HomeTimelineActivity t971}
+        Run #1: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.MainTimelineContainerActivity t971}
         Run #0: ActivityRecord{574ad74 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.LoginActivity t971}
 
-    mResumedActivity: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.HomeTimelineActivity t971}
+    mResumedActivity: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.MainTimelineContainerActivity t971}
 
   Stack #0:
     Task id #947
@@ -518,7 +518,7 @@ Display #0 (activities from top to bottom):
       TaskRecord{1aced7dd #954 A=com.android.systemui U=0 sz=1}
         Run #0: ActivityRecord{1bf2e518 u0 com.android.systemui/.recents.RecentsActivity t954}
 
-  mFocusedActivity: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.HomeTimelineActivity t971}
+  mFocusedActivity: ActivityRecord{299dbb36 u0 com.codepath.apps.restclienttemplate/com.codepath.apps.SimpleTwitterClient.Activities.MainTimelineContainerActivity t971}
   mFocusedStack=ActivityStack{28b21320 stackId=1, 7 tasks} mLastFocusedStack=ActivityStack{28b21320 stackId=1, 7 tasks}
   mSleepTimeout=false
   mCurTaskId=971

@@ -1,7 +1,6 @@
 package com.codepath.apps.SimpleTwitterClient.Fragments;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
-import com.codepath.apps.SimpleTwitterClient.R;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
 import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
@@ -30,15 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jordanhsu on 8/16/15.
+ * Created by jordanhsu on 8/17/15.
  */
-public class HomeTimeLineFragment extends TweetListFragment {
+public class MentionTimeLineFragment extends TweetListFragment{
     private ArrayList<TweetModel> mTweetList;
     public static final String HOME_TIMELINE_FRAGMENT_DEV_TAG = "HomeTimeLineFragment";
     public static final int COMPOSE_REQUEST_CODE = 999;
 
-    public static HomeTimeLineFragment newInstance(){
-        HomeTimeLineFragment fg = new HomeTimeLineFragment();
+    public static MentionTimeLineFragment newInstance(){
+        MentionTimeLineFragment fg = new MentionTimeLineFragment();
         return fg;
     }
 
@@ -46,6 +44,7 @@ public class HomeTimeLineFragment extends TweetListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         renderTimeline(true);
+
     }
 
     @Nullable
@@ -54,7 +53,6 @@ public class HomeTimeLineFragment extends TweetListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
     public void renderTimeline(final boolean clearAdapter){
         if(!GeneralUtils.isNetworkAvailable(mSelfActivity)){
             // load && render it!
@@ -64,20 +62,19 @@ public class HomeTimeLineFragment extends TweetListFragment {
         }
         else {
             mIsLoading = true;
-            mClient.getHomeTimelinePosts(mLoadedPage, new JsonHttpResponseHandler() {
+            mClient.getMentionTimelinePosts(mLoadedPage, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                     Log.d(HOME_TIMELINE_FRAGMENT_DEV_TAG, "renderTimeline|onSuccess()");
                     Log.d(HOME_TIMELINE_FRAGMENT_DEV_TAG, "renderTimeline|response: " + response.toString());
                     mTweetList = TweetModel.parseFromJSONArray(response);
-                    if(clearAdapter){
+                    if (clearAdapter) {
                         clearAllTweetList();
                         addAllToTweetList(mTweetList);
-                    }
-                    else {
+                    } else {
                         addAllToTweetList(mTweetList);
                         mIsLoading = false;
-                        if (response.length() == 0){
+                        if (response.length() == 0) {
                             mNeedLoadMore = false;
                         }
                     }
@@ -98,6 +95,4 @@ public class HomeTimeLineFragment extends TweetListFragment {
             });
         }
     }
-
-
 }

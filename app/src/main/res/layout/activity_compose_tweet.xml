@@ -14,7 +14,8 @@
         android:background="@color/twitter_middle_gray"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <ImageView
         android:layout_width="@dimen/compose_close_btn_size"
@@ -47,7 +48,8 @@
         android:textSize="@dimen/normal_text_size"
         android:layout_below="@+id/composeContentEt"
         android:gravity="center"
-        android:layout_marginRight="@dimen/common_small_margin"/>
+        android:layout_marginRight="@dimen/common_small_margin"
+        />
 
     <Button
         android:layout_width="60dp"

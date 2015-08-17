@@ -28,7 +28,7 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 	public static final String REST_CONSUMER_KEY = "e6dBQqN6XTDPqV2C5AP80mRLB";       // Change this
 	public static final String REST_CONSUMER_SECRET = "xz1T0Us7J8qQBprwy0L8Cme3KCWjDTmRRlh3ces6cqjTQQ3KCA"; // Change this
 	public static final String REST_CALLBACK_URL = "oauth://simpleTwitterClient"; // Change this (here and in manifest)
-	public static final String SIMPLE_TWITTER_CLIENT_DEV_TAG = "simpleTwitterClientDevTag";
+	public static final String SIMPLE_TWITTER_CLIENT_DEV_TAG = "simpleTwitterClient";
 
 	public SimpleTwitterClient(Context context) {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
@@ -54,6 +54,15 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 		String apiUrl = getApiUrl("statuses/update.json");
 		RequestParams params = new RequestParams();
 		params.put("status",text);
-		getClient().post(apiUrl,params,handler);
+		getClient().post(apiUrl, params, handler);
+	}
+
+	public void getMentionTimelinePosts(int page,AsyncHttpResponseHandler handler){
+		Log.d(SIMPLE_TWITTER_CLIENT_DEV_TAG, "getMentionTimelinePosts|page: " + page);
+		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("count",25);
+		params.put("page",page);
+		getClient().get(apiUrl, params, handler);
 	}
 }

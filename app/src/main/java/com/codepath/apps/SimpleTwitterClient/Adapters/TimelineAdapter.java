@@ -21,12 +21,12 @@ import java.util.ArrayList;
 /**
  * Created by jordanhsu on 8/12/15.
  */
-public class HomeTimelineAdapter extends ArrayAdapter<TweetModel> {
+public class TimelineAdapter extends ArrayAdapter<TweetModel> {
     public static final String HOME_TIMELINE_ADAPTER_DEV_TAG = "HomeTimelineAdapterDevTag";
     private Context mContext;
     private ArrayList<TweetModel> mHomeTimelineList;
 
-    public HomeTimelineAdapter(Context context, int resource, ArrayList<TweetModel> objects) {
+    public TimelineAdapter(Context context, int resource, ArrayList<TweetModel> objects) {
         super(context, resource, objects);
         mContext = context;
         mHomeTimelineList = objects;

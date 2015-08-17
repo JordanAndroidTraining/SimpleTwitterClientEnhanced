@@ -1,48 +1,23 @@
 package com.codepath.apps.SimpleTwitterClient.Activities;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
 import com.astuetz.PagerSlidingTabStrip;
-import com.codepath.apps.SimpleTwitterClient.Adapters.HomeTimelineAdapter;
 import com.codepath.apps.SimpleTwitterClient.Adapters.MainContainerPageAdapter;
-import com.codepath.apps.SimpleTwitterClient.Fragments.TweetListFragment;
 import com.codepath.apps.SimpleTwitterClient.R;
-import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
-import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
-import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
-import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
-import com.codepath.apps.SimpleTwitterClient.models.UserModel;
-import com.loopj.android.http.JsonHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.json.JSONArray;
+public class MainTimelineContainerActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HomeTimelineActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
-
-    public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "HomeTimelineActivity";
+    public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "TimelineContainerActivi";
     public static final int COMPOSE_REQUEST_CODE = 999;
     private FragmentManager mFm;
     private MainContainerPageAdapter mPageAdapter;
@@ -68,8 +43,8 @@ public class HomeTimelineActivity extends ActionBarActivity implements AdapterVi
         mVp.setAdapter(mPageAdapter);
 
         // set tabstrip title
-//        mPts = (PagerSlidingTabStrip) findViewById(R.id.mainContainerVpHeaderPts);
-//        mPts.setViewPager(mVp);
+        mPts = (PagerSlidingTabStrip) findViewById(R.id.mainContainerVpHeaderPts);
+        mPts.setViewPager(mVp);
     }
 
     @Override
