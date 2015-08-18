@@ -21,8 +21,31 @@ public class UserModel extends Model {
     @Column(name = "profile_photo_url")
     private String profilePhotoUrl = "";
 
+    @Column(name = "following_count")
+    private String followingCount = "";
+
+    @Column(name = "follower_count")
+    private String followerCount = "";
+
     public UserModel(){
         super();
+    }
+
+
+    public String getFollowingCount() {
+        return followingCount;
+    }
+
+    public void setFollowingCount(String followingCount) {
+        this.followingCount = followingCount;
+    }
+
+    public String getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(String followerCount) {
+        this.followerCount = followerCount;
     }
 
     public String getUserName() {
@@ -59,6 +82,12 @@ public class UserModel extends Model {
         }
         if(GeneralUtils.checkJSONObjectCol("screen_name",json)){
             user.setUserID("@" + json.optString("screen_name"));
+        }
+        if(GeneralUtils.checkJSONObjectCol("followers_count",json)){
+            user.setFollowerCount(json.optString("followers_count"));
+        }
+        if(GeneralUtils.checkJSONObjectCol("friends_count",json)){
+            user.setFollowingCount(json.optString("friends_count"));
         }
         return user;
     }

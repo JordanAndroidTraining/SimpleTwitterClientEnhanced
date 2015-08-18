@@ -1,44 +1,32 @@
 package com.codepath.apps.SimpleTwitterClient.Fragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
-import com.codepath.apps.SimpleTwitterClient.R;
-import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
-import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
-import com.codepath.apps.SimpleTwitterClient.models.UserModel;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jordanhsu on 8/16/15.
  */
-public class HomeTimeLineFragment extends TweetListFragment {
+public class TimeLineHomeFragment extends TweetListFragment {
     private ArrayList<TweetModel> mTweetList;
-    public static final String HOME_TIMELINE_FRAGMENT_DEV_TAG = "HomeTimeLineFragment";
+    public static final String HOME_TIMELINE_FRAGMENT_DEV_TAG = "TimeLineHomeFragment";
     public static final int COMPOSE_REQUEST_CODE = 999;
 
-    public static HomeTimeLineFragment newInstance(){
-        HomeTimeLineFragment fg = new HomeTimeLineFragment();
+    public static TimeLineHomeFragment newInstance(){
+        TimeLineHomeFragment fg = new TimeLineHomeFragment();
         return fg;
     }
 

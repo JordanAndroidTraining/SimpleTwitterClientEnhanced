@@ -23,4 +23,6 @@
     <string name="favorite_wording">favorite</string>
     <string name="date_time_placeholder">2015/01/01</string>
     <string name="title_activity_full_screen_image_view">FullScreenImageViewActivity</string>
+    <string name="following_wording">following</string>
+    <string name="follower_wording">follower</string>
 </resources>

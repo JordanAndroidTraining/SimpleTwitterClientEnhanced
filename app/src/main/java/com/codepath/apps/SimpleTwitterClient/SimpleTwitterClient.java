@@ -39,14 +39,14 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count",25);
-		params.put("page",page);
+		params.put("page", page);
 		getClient().get(apiUrl, params, handler);
 	}
 
 	public void getCurrentUserInfo(AsyncHttpResponseHandler handler){
 		Log.d(SIMPLE_TWITTER_CLIENT_DEV_TAG, "getCurrentUserInfo");
 		String apiUrl = getApiUrl("account/verify_credentials.json");
-		getClient().get(apiUrl,handler);
+		getClient().get(apiUrl, handler);
 	}
 
 	public void postNewTweet(String text,AsyncHttpResponseHandler handler){
@@ -64,5 +64,23 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 		params.put("count",25);
 		params.put("page",page);
 		getClient().get(apiUrl, params, handler);
+	}
+
+	public void getUserTimeline(int page,String screenName,AsyncHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/user_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("count",25);
+		params.put("page",page);
+		if(screenName != null){
+			params.put("screen_name",screenName);
+		}
+		getClient().get(apiUrl, handler);
+	}
+
+	public void getUserInfo(String screenName,AsyncHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/user_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("screen_name",screenName);
+		getClient().get(apiUrl, handler);
 	}
 }

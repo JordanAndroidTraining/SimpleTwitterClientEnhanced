@@ -1,48 +1,51 @@
 package com.codepath.apps.SimpleTwitterClient.Fragments;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
-import com.codepath.apps.SimpleTwitterClient.SimpleTwitterApplication;
-import com.codepath.apps.SimpleTwitterClient.SimpleTwitterClient;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
-import com.codepath.apps.SimpleTwitterClient.models.UserModel;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by jordanhsu on 8/17/15.
+ * Created by jordanhsu on 8/18/15.
  */
-public class MentionTimeLineFragment extends TweetListFragment{
+public class TimeLineProfileViewFragment extends TweetListFragment {
+    public static final String TIME_LINE_PROFILE_VIEW_FRAGMENT = "TimeLineProfileViewFragment";
     private ArrayList<TweetModel> mTweetList;
-    public static final String HOME_TIMELINE_FRAGMENT_DEV_TAG = "HomeTimeLineFragment";
-    public static final int COMPOSE_REQUEST_CODE = 999;
+    private String mScreenName;
+    public static TimeLineProfileViewFragment newInstance(){
+        TimeLineProfileViewFragment fg = new TimeLineProfileViewFragment();
+        return  fg;
+    }
 
-    public static MentionTimeLineFragment newInstance(){
-        MentionTimeLineFragment fg = new MentionTimeLineFragment();
-        return fg;
+    public static TimeLineProfileViewFragment newInstance(String screen_name){
+        TimeLineProfileViewFragment fg = new TimeLineProfileViewFragment();
+        Bundle args = new Bundle();
+        args.putString("screen_name",screen_name);
+        fg.setArguments(args);
+        return  fg;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mScreenName = null;
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey("screen_name")){
+            mScreenName = arguments.getString("screen_name");
+        }
+
         renderTimeline(true);
 
     }
@@ -53,7 +56,8 @@ public class MentionTimeLineFragment extends TweetListFragment{
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public void renderTimeline(final boolean clearAdapter){
+    @Override
+    public void renderTimeline(final boolean clearAdapter) {
         if(!GeneralUtils.isNetworkAvailable(mSelfActivity)){
             // load && render it!
             mTweetList = loadTweetData();
@@ -62,11 +66,11 @@ public class MentionTimeLineFragment extends TweetListFragment{
         }
         else {
             mIsLoading = true;
-            mClient.getMentionTimelinePosts(mLoadedPage, new JsonHttpResponseHandler() {
+            mClient.getUserTimeline(mLoadedPage,mScreenName, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    Log.d(HOME_TIMELINE_FRAGMENT_DEV_TAG, "renderTimeline|onSuccess()");
-                    Log.d(HOME_TIMELINE_FRAGMENT_DEV_TAG, "renderTimeline|response: " + response.toString());
+                    Log.d(TIME_LINE_PROFILE_VIEW_FRAGMENT, "renderTimeline|onSuccess()");
+                    Log.d(TIME_LINE_PROFILE_VIEW_FRAGMENT, "renderTimeline|response: " + response.toString());
                     mTweetList = TweetModel.parseFromJSONArray(response);
                     if (clearAdapter) {
                         clearAllTweetList();
@@ -87,7 +91,7 @@ public class MentionTimeLineFragment extends TweetListFragment{
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d(HOME_TIMELINE_FRAGMENT_DEV_TAG, "renderTimeline()|FAILED|responseString: " + responseString);
+                    Log.d(TIME_LINE_PROFILE_VIEW_FRAGMENT, "renderTimeline()|FAILED|responseString: " + responseString);
                     mSwipeRefreshContainer.setRefreshing(false);
                     Toast.makeText(mSelfActivity, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
                     mIsLoading = false;

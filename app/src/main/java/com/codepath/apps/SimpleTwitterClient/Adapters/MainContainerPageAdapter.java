@@ -6,9 +6,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.SimpleTwitterClient.Fragments.DirectMsgFragment;
-import com.codepath.apps.SimpleTwitterClient.Fragments.HomeTimeLineFragment;
-import com.codepath.apps.SimpleTwitterClient.Fragments.MentionTimeLineFragment;
-import com.codepath.apps.SimpleTwitterClient.Fragments.SelfProfileFragment;
+import com.codepath.apps.SimpleTwitterClient.Fragments.TimeLineHomeFragment;
+import com.codepath.apps.SimpleTwitterClient.Fragments.TimeLineMentionFragment;
+import com.codepath.apps.SimpleTwitterClient.Fragments.ProfileViewFragment;
 import com.codepath.apps.SimpleTwitterClient.R;
 
 /**
@@ -29,13 +29,13 @@ public class MainContainerPageAdapter extends FragmentPagerAdapter implements Pa
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return HomeTimeLineFragment.newInstance();
+                return TimeLineHomeFragment.newInstance();
             case 1:
-                return MentionTimeLineFragment.newInstance();
+                return TimeLineMentionFragment.newInstance();
             case 2:
                 return DirectMsgFragment.newInstance();
             case 3:
-                return SelfProfileFragment.newInstance();
+                return ProfileViewFragment.newInstance();
             default:
                 return null;
         }
