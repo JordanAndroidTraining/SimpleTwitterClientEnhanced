@@ -69,8 +69,8 @@ public class TimeLineHomeFragment extends TweetListFragment {
                             mNeedLoadMore = false;
                         }
                     }
-                    saveTweetData(mTweetList);
-                    loadTweetData();
+//                    saveTweetData(mTweetList);
+//                    loadTweetData();
                     mSwipeRefreshContainer.setRefreshing(false);
                     mIsLoading = false;
                     mLoadedPage++;

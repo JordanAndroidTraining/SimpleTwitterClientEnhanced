@@ -45,7 +45,7 @@ public class TimeLineProfileViewFragment extends TweetListFragment {
         if (arguments != null && arguments.containsKey("screen_name")){
             mScreenName = arguments.getString("screen_name");
         }
-
+        Log.d("JordanGGG","mScreenName: " + mScreenName);
         renderTimeline(true);
 
     }
@@ -66,11 +66,10 @@ public class TimeLineProfileViewFragment extends TweetListFragment {
         }
         else {
             mIsLoading = true;
-            mClient.getUserTimeline(mLoadedPage,mScreenName, new JsonHttpResponseHandler() {
+            mClient.getUserTimeline(mLoadedPage, mScreenName, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    Log.d(TIME_LINE_PROFILE_VIEW_FRAGMENT, "renderTimeline|onSuccess()");
-                    Log.d(TIME_LINE_PROFILE_VIEW_FRAGMENT, "renderTimeline|response: " + response.toString());
+
                     mTweetList = TweetModel.parseFromJSONArray(response);
                     if (clearAdapter) {
                         clearAllTweetList();
@@ -82,8 +81,8 @@ public class TimeLineProfileViewFragment extends TweetListFragment {
                             mNeedLoadMore = false;
                         }
                     }
-                    saveTweetData(mTweetList);
-                    loadTweetData();
+//                    saveTweetData(mTweetList);
+//                    loadTweetData();
                     mSwipeRefreshContainer.setRefreshing(false);
                     mIsLoading = false;
                     mLoadedPage++;

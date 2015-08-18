@@ -19,6 +19,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -32,9 +33,11 @@ public class ProfileViewFragment extends Fragment {
     private TextView mFollowingCountTv;
     private TextView mFollowerCountTv;
     private String mScreenName;
+    private String mUserId;
     private SimpleTwitterClient mClient;
     private UserModel mUser;
     public Context mSelfContext;
+
 
     // get self profile view
     public static ProfileViewFragment newInstance(){
@@ -43,10 +46,11 @@ public class ProfileViewFragment extends Fragment {
     }
 
     // get specific user's profile view
-    public static ProfileViewFragment newInstance(String screen_name ){
+    public static ProfileViewFragment newInstance(String screenName, String userId ){
         ProfileViewFragment fg = new ProfileViewFragment();
         Bundle args = new Bundle();
-        args.putString("screen_name",screen_name);
+        args.putString("screen_name", screenName);
+        args.putString("user_id", userId);
         fg.setArguments(args);
         return fg;
     }
@@ -69,19 +73,22 @@ public class ProfileViewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mScreenName = null;
+        mUserId = null;
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey("screen_name")){
-            mScreenName = arguments.getString("screen_name");
+            if(arguments.containsKey("screen_name"))
+                mScreenName = arguments.getString("screen_name");
+            if(arguments.containsKey("user_id"))
+                mUserId = arguments.getString("user_id");
         }
         mSelfContext = getActivity();
         mClient = SimpleTwitterApplication.getRestClient();
-
     }
 
     public void renderProfileHeader(){
         // for self user timeline
-        if(mScreenName == null){
-            mClient.getCurrentUserInfo(new  JsonHttpResponseHandler(){
+        if(mScreenName == null && mUserId == null){
+            mClient.getCurrentUserInfo(new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     mUser = UserModel.parseFromJSONObject(response);
@@ -90,23 +97,26 @@ public class ProfileViewFragment extends Fragment {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d(PROFILE_VIEW_FRAGMENT, "renderComposePage|onFailure()|responseString: " + responseString);
+                    Log.d(PROFILE_VIEW_FRAGMENT, "renderProfileHeader|onFailure()|responseString: " + responseString);
 
                 }
             });
         }
         // for specific user timeline
         else{
-            mClient.getUserInfo(mScreenName,new  JsonHttpResponseHandler(){
+            mClient.getUserInfo(mScreenName,mUserId, new JsonHttpResponseHandler(){
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("JordanTestXXX", "onSuccess()");
                     mUser = UserModel.parseFromJSONObject(response);
+
                     renderProfileHeaderOnSuccessHandler();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.d(PROFILE_VIEW_FRAGMENT, "renderComposePage|onFailure()|responseString: " + responseString);
+                    Log.d(PROFILE_VIEW_FRAGMENT, "renderProfileHeader|onFailure()|responseString: " + responseString);
+
                 }
             });
         }
@@ -114,7 +124,7 @@ public class ProfileViewFragment extends Fragment {
 
     public void renderProfileHeaderOnSuccessHandler(){
         Picasso.with(mSelfContext).load(mUser.getProfilePhotoUrl()).into(mProfileImgIv);
-        mUserIdTv.setText(mUser.getUserID());
+        mUserIdTv.setText(mUser.getUserScreenName());
         mUserNameTv.setText(mUser.getUserName());
         mFollowerCountTv.setText(mUser.getFollowerCount());
         mFollowingCountTv.setText(mUser.getFollowingCount());

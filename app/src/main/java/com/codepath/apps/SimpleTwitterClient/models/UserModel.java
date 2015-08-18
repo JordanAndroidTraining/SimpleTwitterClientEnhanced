@@ -15,8 +15,8 @@ public class UserModel extends Model {
     @Column(name = "user_name")
     private String userName = "";
 
-    @Column(name = "user_id")
-    private String userID = "";
+    @Column(name = "user_screen_name")
+    private String userScreenName = "";
 
     @Column(name = "profile_photo_url")
     private String profilePhotoUrl = "";
@@ -27,10 +27,20 @@ public class UserModel extends Model {
     @Column(name = "follower_count")
     private String followerCount = "";
 
+    @Column(name = "user_id")
+    private String userId = "";
+
     public UserModel(){
         super();
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getFollowingCount() {
         return followingCount;
@@ -56,12 +66,12 @@ public class UserModel extends Model {
         this.userName = userName;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getUserScreenName() {
+        return userScreenName;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setUserScreenName(String userScreenName) {
+        this.userScreenName = userScreenName;
     }
 
     public String getProfilePhotoUrl() {
@@ -81,13 +91,16 @@ public class UserModel extends Model {
             user.setProfilePhotoUrl(json.optString("profile_image_url"));
         }
         if(GeneralUtils.checkJSONObjectCol("screen_name",json)){
-            user.setUserID("@" + json.optString("screen_name"));
+            user.setUserScreenName(json.optString("screen_name"));
         }
         if(GeneralUtils.checkJSONObjectCol("followers_count",json)){
             user.setFollowerCount(json.optString("followers_count"));
         }
         if(GeneralUtils.checkJSONObjectCol("friends_count",json)){
             user.setFollowingCount(json.optString("friends_count"));
+        }
+        if(GeneralUtils.checkJSONObjectCol("id_str",json)){
+            user.setUserId(json.optString("id_str"));
         }
         return user;
     }

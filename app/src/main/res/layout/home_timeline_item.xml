@@ -35,7 +35,7 @@
         android:text="@string/user_id_placeholder"
         android:layout_marginLeft="@dimen/common_small_margin"
         android:typeface="serif"
-        android:id="@+id/userIdTv"
+        android:id="@+id/userScreenNameTv"
         android:layout_alignBottom="@+id/userNameTv"
         android:layout_toRightOf="@+id/userNameTv"
         android:layout_toEndOf="@+id/userNameTv" />
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="@string/caption_placeholder"
         android:id="@+id/captionTv"
-        android:layout_below="@+id/userIdTv"
+        android:layout_below="@+id/userScreenNameTv"
         android:layout_alignLeft="@+id/userNameTv"
         android:layout_alignStart="@+id/userNameTv"
         android:layout_alignParentRight="true"

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.SimpleTwitterClient.Activities.FullScreenImageViewActivity;
+import com.codepath.apps.SimpleTwitterClient.Activities.ProfileViewActivity;
 import com.codepath.apps.SimpleTwitterClient.R;
 import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
 import com.squareup.picasso.Picasso;
@@ -35,7 +36,7 @@ public class TimelineAdapter extends ArrayAdapter<TweetModel> {
     private static class ViewHolder{
         ImageView profilePhotoIv;
         TextView userNameTv;
-        TextView userIdTv;
+        TextView userScreenNameTv;
         TextView relativeTimestampTv;
         TextView captionTv;
         ImageView tweetImgIv;
@@ -44,7 +45,7 @@ public class TimelineAdapter extends ArrayAdapter<TweetModel> {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.home_timeline_item,parent,false);
@@ -53,7 +54,7 @@ public class TimelineAdapter extends ArrayAdapter<TweetModel> {
             // get element reference
             viewHolder.profilePhotoIv = (ImageView) convertView.findViewById(R.id.profilePhotoIv);
             viewHolder.userNameTv = (TextView) convertView.findViewById(R.id.userNameTv);
-            viewHolder.userIdTv = (TextView) convertView.findViewById(R.id.userIdTv);
+            viewHolder.userScreenNameTv = (TextView) convertView.findViewById(R.id.userScreenNameTv);
             viewHolder.relativeTimestampTv = (TextView) convertView.findViewById(R.id.relativeTimestampTv);
             viewHolder.captionTv = (TextView) convertView.findViewById(R.id.captionTv);
             viewHolder.tweetImgIv = (ImageView) convertView.findViewById(R.id.tweetImgIv);
@@ -70,17 +71,24 @@ public class TimelineAdapter extends ArrayAdapter<TweetModel> {
         viewHolder.tweetImgIv.setVisibility(View.GONE);
         viewHolder.tweetImgIv.setImageResource(0);
 
-
         final TweetModel renderModel = mHomeTimelineList.get(position);
-
-        //Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "viewHolder: " + viewHolder.toString());
-        //Log.d(HOME_TIMELINE_ADAPTER_DEV_TAG, "renderModel: " + renderModel.getUser().getProfilePhotoUrl());
 
         // set view content
         if(renderModel.getUser() != null){
             Picasso.with(mContext).load(renderModel.getUser().getProfilePhotoUrl()).into(viewHolder.profilePhotoIv);
+            viewHolder.profilePhotoIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(mContext,ProfileViewActivity.class);
+                    String screenName = renderModel.getUser().getUserScreenName();
+                    String userId = renderModel.getUser().getUserId();
+                    i.putExtra("screen_name", screenName);
+                    i.putExtra("user_id",userId);
+                    mContext.startActivity(i);
+                }
+            });
             viewHolder.userNameTv.setText(renderModel.getUser().getUserName());
-            viewHolder.userIdTv.setText(renderModel.getUser().getUserID());
+            viewHolder.userScreenNameTv.setText("@" + renderModel.getUser().getUserScreenName());
         }
 
         if(!renderModel.getTweetImgUrl().isEmpty()){
@@ -100,11 +108,8 @@ public class TimelineAdapter extends ArrayAdapter<TweetModel> {
         }
         viewHolder.relativeTimestampTv.setText(renderModel.getRelativeTimestamp());
         viewHolder.captionTv.setText(renderModel.getCaption());
-//        Picasso.with(mContext).load(renderModel.getTweetImgUrl()).into(viewHolder.tweetImgIv);
         viewHolder.retweetCountTv.setText(String.valueOf(renderModel.getRetweetCount()));
         viewHolder.starCountTv.setText(String.valueOf(renderModel.getFavouritesCount()));
-//        convertView.setOnClickListener((View.OnClickListener) mContext);
-
         return convertView;
     }
 }

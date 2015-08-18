@@ -74,13 +74,14 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 		if(screenName != null){
 			params.put("screen_name",screenName);
 		}
-		getClient().get(apiUrl, handler);
+		getClient().get(apiUrl,params , handler);
 	}
 
-	public void getUserInfo(String screenName,AsyncHttpResponseHandler handler){
-		String apiUrl = getApiUrl("statuses/user_timeline.json");
+	public void getUserInfo(String screenName, String userId ,AsyncHttpResponseHandler handler){
+		String apiUrl = getApiUrl("users/show.json");
 		RequestParams params = new RequestParams();
 		params.put("screen_name",screenName);
-		getClient().get(apiUrl, handler);
+		params.put("user_id",userId);
+		getClient().get(apiUrl,params , handler);
 	}
 }

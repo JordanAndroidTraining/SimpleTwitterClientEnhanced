@@ -102,7 +102,7 @@ public abstract class TweetListFragment extends Fragment implements SwipeRefresh
             Log.d(TWEET_LIST_FRAGMENT_DEV_TAG,"loadTweetData|tweet User: " + tweet.getUser());
             Log.d(TWEET_LIST_FRAGMENT_DEV_TAG,"loadTweetData|imageURL: "+tweet.getTweetImgUrl());
             Log.d(TWEET_LIST_FRAGMENT_DEV_TAG,"loadTweetData|tweet User name: " + tweet.getUser().getUserName());
-            Log.d(TWEET_LIST_FRAGMENT_DEV_TAG,"loadTweetData|tweet User id: " + tweet.getUser().getUserID());
+            Log.d(TWEET_LIST_FRAGMENT_DEV_TAG,"loadTweetData|tweet User id: " + tweet.getUser().getUserScreenName());
             Log.d(TWEET_LIST_FRAGMENT_DEV_TAG, "loadTweetData|tweet Caption: " + tweet.getCaption());
             returnModel.add(tweet);
         }
