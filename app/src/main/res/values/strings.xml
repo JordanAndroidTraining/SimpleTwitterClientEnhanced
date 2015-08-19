@@ -27,4 +27,5 @@
     <string name="follower_wording">follower</string>
     <string name="title_activity_profile_view">Profile</string>
     <string name="long_textview_placeholder">aaaaaaaaaaaaaaa</string>
+    <string name="short_textview_placeholder">aaaaaa</string>
 </resources>

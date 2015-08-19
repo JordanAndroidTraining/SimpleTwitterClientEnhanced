@@ -23,6 +23,8 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import static com.codepath.apps.SimpleTwitterClient.R.color.gray;
+
 /**
  * Created by jordanhsu on 8/17/15.
  */
@@ -136,6 +138,16 @@ public class ProfileViewFragment extends Fragment implements View.OnClickListene
         mUserNameTv.setText(mUser.getUserName());
         mFollowerCountTv.setText(mUser.getFollowerCount());
         mFollowingCountTv.setText(mUser.getFollowingCount());
+
+        //hide loading theme
+        mUserIdTv.setBackground(null);
+        mUserNameTv.setBackground(null);
+        mFollowerCountTv.setBackground(null);
+        mFollowingCountTv.setBackground(null);
+        mUserNameTv.setTextColor(R.color.black);
+        mUserIdTv.setTextColor(gray);
+        mFollowingCountTv.setTextColor(gray);
+        mFollowerCountTv.setTextColor(gray);
     }
 
     public void renderProfileTimeline(){

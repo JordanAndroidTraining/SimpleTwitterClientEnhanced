@@ -24,7 +24,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user_name_placeholder"
+            android:text="@string/long_textview_placeholder"
+            android:textColor="@color/twitter_middle_gray"
+            android:background="@color/twitter_middle_gray"
             android:id="@+id/profilePageUserNameTv"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/profilePageProfileImgIv"
@@ -36,12 +38,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/user_id_placeholder"
+            android:text="@string/long_textview_placeholder"
             android:id="@+id/profilePageUserIdTv"
+            android:textColor="@color/twitter_middle_gray"
+            android:background="@color/twitter_middle_gray"
             android:layout_below="@+id/profilePageUserNameTv"
             android:layout_toRightOf="@+id/profilePageProfileImgIv"
             android:layout_toEndOf="@+id/profilePageProfileImgIv"
             android:layout_marginLeft="@dimen/common_small_margin"
+            android:layout_marginTop="@dimen/common_xs_margin"
             android:textSize="@dimen/normal_text_size"/>
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -53,13 +58,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/count_placeholder"
+                android:text="@string/short_textview_placeholder"
                 android:id="@+id/profilePageFollowingValTv"
+                android:textColor="@color/twitter_middle_gray"
+                android:background="@color/twitter_middle_gray"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="@dimen/common_small_margin"
-                android:textSize="@dimen/normal_text_size"
-                android:textColor="@color/black"/>
+                android:textSize="@dimen/normal_text_size" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,10 +89,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/count_placeholder"
+                android:text="@string/short_textview_placeholder"
+                android:textColor="@color/twitter_middle_gray"
+                android:background="@color/twitter_middle_gray"
                 android:id="@+id/profilePageFollowerValTv"
                 android:textSize="@dimen/normal_text_size"
-                android:textColor="@color/black"
+
                 android:layout_marginLeft="@dimen/common_xxl_margin"/>
 
             <TextView
