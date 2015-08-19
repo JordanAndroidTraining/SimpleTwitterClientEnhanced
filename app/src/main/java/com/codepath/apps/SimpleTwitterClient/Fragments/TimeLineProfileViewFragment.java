@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by jordanhsu on 8/18/15.
  */
-public class TimeLineProfileViewFragment extends TweetListFragment {
+public class TimeLineProfileViewFragment extends TweetListBaseFragment {
     public static final String TIME_LINE_PROFILE_VIEW_FRAGMENT = "TimeLineProfileViewFragment";
     private ArrayList<TweetModel> mTweetList;
     private String mScreenName;
@@ -45,7 +45,6 @@ public class TimeLineProfileViewFragment extends TweetListFragment {
         if (arguments != null && arguments.containsKey("screen_name")){
             mScreenName = arguments.getString("screen_name");
         }
-        Log.d("JordanGGG","mScreenName: " + mScreenName);
         renderTimeline(true);
 
     }

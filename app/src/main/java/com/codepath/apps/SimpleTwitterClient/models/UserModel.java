@@ -1,11 +1,17 @@
 package com.codepath.apps.SimpleTwitterClient.models;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by jordanhsu on 8/12/15.
@@ -83,7 +89,6 @@ public class UserModel extends Model {
     }
     public static  UserModel parseFromJSONObject(JSONObject json){
         UserModel user = new UserModel();
-        //JSONObject userObj = json.optJSONObject("user");
         if(GeneralUtils.checkJSONObjectCol("name", json)){
             user.setUserName(json.optString("name"));
         }
@@ -103,5 +108,14 @@ public class UserModel extends Model {
             user.setUserId(json.optString("id_str"));
         }
         return user;
+    }
+    public static ArrayList<UserModel> parseFromJsonArray(JSONArray json){
+        ArrayList<UserModel> returnList = new ArrayList<>();
+        for(int i = 0; i < json.length() ; i++){
+            JSONObject row = json.optJSONObject(i);
+            UserModel user = UserModel.parseFromJSONObject(row);
+            returnList.add(user);
+        }
+        return returnList;
     }
 }

@@ -9,7 +9,8 @@
         android:layout_height="101dp"
         android:layout_marginTop="@dimen/common_margin"
         android:layout_marginLeft="@dimen/common_margin"
-        android:layout_marginRight="@dimen/common_margin">
+        android:layout_marginRight="@dimen/common_margin"
+        android:id="@+id/profilePageHeaderRl">
 
         <ImageView
             android:layout_width="@dimen/profile_img_size_l"
@@ -42,52 +43,64 @@
             android:layout_toEndOf="@+id/profilePageProfileImgIv"
             android:layout_marginLeft="@dimen/common_small_margin"
             android:textSize="@dimen/normal_text_size"/>
-
-        <TextView
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/count_placeholder"
-            android:id="@+id/profilePageFollowingValTv"
             android:layout_below="@+id/profilePageProfileImgIv"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/common_small_margin"
-            android:textSize="@dimen/normal_text_size"
-            android:textColor="@color/black"/>
+            android:id="@+id/followingGroupRl">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/count_placeholder"
+                android:id="@+id/profilePageFollowingValTv"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/common_small_margin"
+                android:textSize="@dimen/normal_text_size"
+                android:textColor="@color/black"/>
 
-        <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/following_wording"
+                android:id="@+id/profilePageFollowingTextTv"
+                android:layout_alignTop="@+id/profilePageFollowingValTv"
+                android:layout_toRightOf="@+id/profilePageFollowingValTv"
+                android:layout_toEndOf="@+id/profilePageFollowingValTv"
+                android:layout_marginLeft="@dimen/common_xs_margin"
+                android:textSize="@dimen/normal_text_size"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/following_wording"
-            android:id="@+id/profilePageFollowingTextTv"
-            android:layout_alignTop="@+id/profilePageFollowingValTv"
-            android:layout_toRightOf="@+id/profilePageFollowingValTv"
-            android:layout_toEndOf="@+id/profilePageFollowingValTv"
-            android:layout_marginLeft="@dimen/common_xs_margin"
-            android:textSize="@dimen/normal_text_size"/>
+            android:layout_alignBottom="@+id/followingGroupRl"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/followerGroupRl">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/count_placeholder"
+                android:id="@+id/profilePageFollowerValTv"
+                android:textSize="@dimen/normal_text_size"
+                android:textColor="@color/black"
+                android:layout_marginLeft="@dimen/common_xxl_margin"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/count_placeholder"
-            android:id="@+id/profilePageFollowerValTv"
-            android:layout_alignTop="@+id/profilePageFollowingTextTv"
-            android:layout_toRightOf="@+id/profilePageFollowingTextTv"
-            android:layout_toEndOf="@+id/profilePageFollowingTextTv"
-            android:textSize="@dimen/normal_text_size"
-            android:textColor="@color/black"
-            android:layout_marginLeft="@dimen/common_xxl_margin"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/follower_wording"
+                android:id="@+id/textView2"
+                android:layout_alignTop="@+id/profilePageFollowerValTv"
+                android:layout_toRightOf="@+id/profilePageFollowerValTv"
+                android:layout_toEndOf="@+id/profilePageFollowerValTv"
+                android:textSize="@dimen/normal_text_size"
+                android:layout_marginLeft="@dimen/common_xs_margin"/>
+        </RelativeLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/follower_wording"
-            android:id="@+id/textView2"
-            android:layout_alignTop="@+id/profilePageFollowerValTv"
-            android:layout_toRightOf="@+id/profilePageFollowerValTv"
-            android:layout_toEndOf="@+id/profilePageFollowerValTv"
-            android:textSize="@dimen/normal_text_size"
-            android:layout_marginLeft="@dimen/common_xs_margin"/>
     </RelativeLayout>
 
     <FrameLayout

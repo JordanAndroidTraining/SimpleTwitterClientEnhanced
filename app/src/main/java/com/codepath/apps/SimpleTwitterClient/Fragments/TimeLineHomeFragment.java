@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Created by jordanhsu on 8/16/15.
  */
-public class TimeLineHomeFragment extends TweetListFragment {
+public class TimeLineHomeFragment extends TweetListBaseFragment {
     private ArrayList<TweetModel> mTweetList;
     public static final String HOME_TIMELINE_FRAGMENT_DEV_TAG = "TimeLineHomeFragment";
     public static final int COMPOSE_REQUEST_CODE = 999;
@@ -35,6 +35,7 @@ public class TimeLineHomeFragment extends TweetListFragment {
         super.onCreate(savedInstanceState);
         renderTimeline(true);
     }
+
 
     @Nullable
     @Override
@@ -86,6 +87,4 @@ public class TimeLineHomeFragment extends TweetListFragment {
             });
         }
     }
-
-
 }

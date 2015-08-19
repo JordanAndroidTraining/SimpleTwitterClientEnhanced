@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="@dimen/profile_img_size"
+        android:layout_height="@dimen/profile_img_size"
+        android:background="@color/twitter_middle_gray"
+        android:id="@+id/userItemProfilePhotoIv"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="@dimen/common_margin"
+        android:layout_marginTop="@dimen/common_margin"
+        android:layout_marginBottom="@dimen/common_margin"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/long_textview_placeholder"
+        android:id="@+id/userItemUserNameTv"
+        android:textColor="@color/twitter_middle_gray"
+        android:textStyle="bold"
+        android:textSize="@dimen/middle_text_size"
+        android:layout_alignTop="@+id/userItemProfilePhotoIv"
+        android:layout_toRightOf="@+id/userItemProfilePhotoIv"
+        android:layout_toEndOf="@+id/userItemProfilePhotoIv"
+        android:layout_marginLeft="@dimen/common_small_margin"
+        android:background="@color/twitter_middle_gray"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/long_textview_placeholder"
+        android:layout_marginTop="@dimen/common_xs_margin"
+        android:id="@+id/userItemPageScreenNameTv"
+        android:background="@color/twitter_middle_gray"
+        android:textColor="@color/twitter_middle_gray"
+        android:layout_below="@+id/userItemUserNameTv"
+        android:layout_alignLeft="@+id/userItemUserNameTv"
+        android:layout_alignStart="@+id/userItemUserNameTv" />
+</RelativeLayout>

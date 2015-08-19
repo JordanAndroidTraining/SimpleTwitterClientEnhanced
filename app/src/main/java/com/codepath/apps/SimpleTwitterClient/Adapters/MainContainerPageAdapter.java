@@ -3,6 +3,7 @@ package com.codepath.apps.SimpleTwitterClient.Adapters;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.SimpleTwitterClient.Fragments.DirectMsgFragment;
@@ -29,6 +30,7 @@ public class MainContainerPageAdapter extends FragmentPagerAdapter implements Pa
     public Fragment getItem(int position) {
         switch (position){
             case 0:
+
                 return TimeLineHomeFragment.newInstance();
             case 1:
                 return TimeLineMentionFragment.newInstance();
@@ -55,4 +57,5 @@ public class MainContainerPageAdapter extends FragmentPagerAdapter implements Pa
     public int getPageIconResId(int i) {
         return tabIcons[i];
     }
+
 }

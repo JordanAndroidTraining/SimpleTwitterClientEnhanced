@@ -15,9 +15,10 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.SimpleTwitterClient.Adapters.MainContainerPageAdapter;
 import com.codepath.apps.SimpleTwitterClient.R;
 
-public class MainTimelineContainerActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class MainTimelineContainerActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener {
 
     public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "TimelineContainerActivi";
+    public static final String[] ACTION_BAR_TITLE = {"Home","Mentions","Message","Me"};
     public static final int COMPOSE_REQUEST_CODE = 999;
     private FragmentManager mFm;
     private MainContainerPageAdapter mPageAdapter;
@@ -42,9 +43,11 @@ public class MainTimelineContainerActivity extends ActionBarActivity implements 
         mPageAdapter = new MainContainerPageAdapter(mFm);
         mVp.setAdapter(mPageAdapter);
 
+
         // set tabstrip title
         mPts = (PagerSlidingTabStrip) findViewById(R.id.mainContainerVpHeaderPts);
         mPts.setViewPager(mVp);
+        mPts.setOnPageChangeListener(this);
     }
 
     @Override
@@ -99,4 +102,19 @@ public class MainTimelineContainerActivity extends ActionBarActivity implements 
 //        Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG,mTweetList.get(position).getClass().toString());
     }
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        //do nothing!
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        // change action bar title
+        setTitle(ACTION_BAR_TITLE[position]);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        //do nothing!
+    }
 }

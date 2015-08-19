@@ -25,5 +25,6 @@
     <string name="title_activity_full_screen_image_view">FullScreenImageViewActivity</string>
     <string name="following_wording">following</string>
     <string name="follower_wording">follower</string>
-    <string name="title_activity_profile_view">ProfileViewActivity</string>
+    <string name="title_activity_profile_view">Profile</string>
+    <string name="long_textview_placeholder">aaaaaaaaaaaaaaa</string>
 </resources>

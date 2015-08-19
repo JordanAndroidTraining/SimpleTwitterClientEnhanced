@@ -17,6 +17,12 @@ public class ProfileViewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_view);
+
+        //set icon
+        getSupportActionBar().setLogo(R.mipmap.ic_twitter_log_white);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         //get intent data
         Intent intent = getIntent();
         String screenName = intent.getStringExtra("screen_name");

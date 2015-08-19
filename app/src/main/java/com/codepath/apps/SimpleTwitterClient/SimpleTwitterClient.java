@@ -74,7 +74,7 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 		if(screenName != null){
 			params.put("screen_name",screenName);
 		}
-		getClient().get(apiUrl,params , handler);
+		getClient().get(apiUrl, params, handler);
 	}
 
 	public void getUserInfo(String screenName, String userId ,AsyncHttpResponseHandler handler){
@@ -83,5 +83,19 @@ public class SimpleTwitterClient extends OAuthBaseClient {
 		params.put("screen_name",screenName);
 		params.put("user_id",userId);
 		getClient().get(apiUrl,params , handler);
+	}
+
+	public void getFollowerList(String screenName, AsyncHttpResponseHandler handler){
+		String apiUrl = getApiUrl("followers/list.json");
+		RequestParams params = new RequestParams();
+		params.put("screen_name",screenName);
+		getClient().get(apiUrl,params , handler);
+	}
+
+	public void getFollowingList(String screenName, AsyncHttpResponseHandler handler){
+		String apiUrl = getApiUrl("friends/list.json");
+		RequestParams params = new RequestParams();
+		params.put("screen_name",screenName);
+		getClient().get(apiUrl, params , handler);
 	}
 }

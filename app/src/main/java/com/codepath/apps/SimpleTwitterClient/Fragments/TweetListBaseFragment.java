@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * Created by jordanhsu on 8/16/15.
  */
-public abstract class TweetListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
+public abstract class TweetListBaseFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, AdapterView.OnItemClickListener {
     public static final String TWEET_LIST_FRAGMENT_DEV_TAG = "TweetListFragmentDevTag";
     public TimelineAdapter mAdapter;
     public ArrayList<TweetModel> mTweetList;

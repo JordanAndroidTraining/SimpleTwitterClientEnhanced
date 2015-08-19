@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.apps.SimpleTwitterClient.R;
@@ -25,7 +26,7 @@ import org.json.JSONObject;
 /**
  * Created by jordanhsu on 8/17/15.
  */
-public class ProfileViewFragment extends Fragment {
+public class ProfileViewFragment extends Fragment implements View.OnClickListener {
     public static final String PROFILE_VIEW_FRAGMENT = "ProfileViewFragment";
     private ImageView mProfileImgIv;
     private TextView mUserNameTv;
@@ -36,6 +37,8 @@ public class ProfileViewFragment extends Fragment {
     private String mUserId;
     private SimpleTwitterClient mClient;
     private UserModel mUser;
+    private RelativeLayout mFollowerGrpRl;
+    private RelativeLayout mFollowingGrlRl;
     public Context mSelfContext;
 
 
@@ -64,6 +67,11 @@ public class ProfileViewFragment extends Fragment {
         mUserIdTv = (TextView) v.findViewById(R.id.profilePageUserIdTv);
         mFollowingCountTv = (TextView) v.findViewById(R.id.profilePageFollowingValTv);
         mFollowerCountTv = (TextView) v.findViewById(R.id.profilePageFollowerValTv);
+        mFollowerGrpRl = (RelativeLayout) v.findViewById(R.id.followerGroupRl);
+        mFollowingGrlRl = (RelativeLayout) v.findViewById(R.id.followingGroupRl);
+
+        mFollowingGrlRl.setOnClickListener(this);
+        mFollowerGrpRl.setOnClickListener(this);
         renderProfileTimeline();
         renderProfileHeader();
         return v;
@@ -144,4 +152,22 @@ public class ProfileViewFragment extends Fragment {
         ft.commit();
     }
 
+    public void renderFollowUserList(String screenName,String listType){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        UserListFragment fg = UserListFragment.newInstance(screenName,listType);
+        //ft.replace(R.id.profileTweetListContainer,fg);
+        ft.replace(R.id.profileTweetListContainer,fg).addToBackStack("tag").commit();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.followerGroupRl:
+                renderFollowUserList(mScreenName,"follower");
+                break;
+            case R.id.followingGroupRl:
+                renderFollowUserList(mScreenName,"following");
+                break;
+        }
+    }
 }

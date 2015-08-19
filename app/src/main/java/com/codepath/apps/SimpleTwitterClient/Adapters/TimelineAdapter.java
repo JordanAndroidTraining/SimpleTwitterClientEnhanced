@@ -48,7 +48,7 @@ public class TimelineAdapter extends ArrayAdapter<TweetModel> {
     public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.home_timeline_item,parent,false);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.tweet_list_item,parent,false);
             viewHolder = new ViewHolder();
 
             // get element reference
