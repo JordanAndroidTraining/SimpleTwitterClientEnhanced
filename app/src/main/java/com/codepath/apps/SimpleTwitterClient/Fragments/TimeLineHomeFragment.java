@@ -37,8 +37,6 @@ public class TimeLineHomeFragment extends TweetListBaseFragment {
     }
 
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +83,7 @@ public class TimeLineHomeFragment extends TweetListBaseFragment {
                     mSwipeRefreshContainer.setRefreshing(false);
                     mIsLoading = false;
                     mLoadedPage++;
+                    mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -93,6 +92,7 @@ public class TimeLineHomeFragment extends TweetListBaseFragment {
                     mSwipeRefreshContainer.setRefreshing(false);
                     Toast.makeText(mSelfActivity, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
                     mIsLoading = false;
+                    mProgressBar.setVisibility(View.GONE);
                 }
             });
         }

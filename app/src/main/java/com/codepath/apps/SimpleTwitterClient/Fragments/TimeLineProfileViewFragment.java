@@ -85,6 +85,7 @@ public class TimeLineProfileViewFragment extends TweetListBaseFragment {
                     mSwipeRefreshContainer.setRefreshing(false);
                     mIsLoading = false;
                     mLoadedPage++;
+                    mProgressBar.setVisibility(View.GONE);
                 }
 
                 @Override
@@ -93,6 +94,7 @@ public class TimeLineProfileViewFragment extends TweetListBaseFragment {
                     mSwipeRefreshContainer.setRefreshing(false);
                     Toast.makeText(mSelfActivity, "Refresh Timeline Failed!", Toast.LENGTH_LONG).show();
                     mIsLoading = false;
+                    mProgressBar.setVisibility(View.GONE);
                 }
             });
         }

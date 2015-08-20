@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
@@ -41,13 +42,24 @@ public abstract class TweetListBaseFragment extends Fragment implements SwipeRef
     public boolean mIsLoading = false;
     public boolean mNeedLoadMore = true;
     public Activity mSelfActivity;
+    public ProgressBar mProgressBar;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.fragment_tweet_listview,container,false);
+
+
+        View footer =  getActivity().getLayoutInflater().inflate(R.layout.footer_progress, null);
+        mProgressBar = (ProgressBar) footer.findViewById(R.id.pbFooterLoading);
+
         mTweetListLv = (ListView) v.findViewById(R.id.tweetListLv);
+
+
+        mTweetListLv.addFooterView(footer);
+
         mTweetListLv.setAdapter(mAdapter);
+
         mSwipeRefreshContainer = (SwipeRefreshLayout) v.findViewById(R.id.tweetRefreshContainer);
         mSwipeRefreshContainer.setColorSchemeResources(R.color.twitter_blue);
         mSwipeRefreshContainer.setOnRefreshListener(this);
@@ -129,6 +141,7 @@ public abstract class TweetListBaseFragment extends Fragment implements SwipeRef
     public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         if(firstVisibleItem + visibleItemCount >= totalItemCount && !mIsLoading && mNeedLoadMore && totalItemCount != 0) {
             Log.d(TWEET_LIST_FRAGMENT_DEV_TAG,"onScroll to loadmore|page: " + mLoadedPage);
+            mProgressBar.setVisibility(View.VISIBLE);
             renderTimeline(false);
         }
     }
