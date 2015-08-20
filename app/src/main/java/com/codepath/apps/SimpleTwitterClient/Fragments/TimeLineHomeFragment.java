@@ -1,5 +1,10 @@
 package com.codepath.apps.SimpleTwitterClient.Fragments;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -8,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.codepath.apps.SimpleTwitterClient.Listeners.OnTweetComposeListener;
 import com.codepath.apps.SimpleTwitterClient.Utils.GeneralUtils;
 import com.codepath.apps.SimpleTwitterClient.models.TweetModel;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -30,9 +36,13 @@ public class TimeLineHomeFragment extends TweetListBaseFragment {
         return fg;
     }
 
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().registerReceiver(new FragmentReceiver1(), new IntentFilter("fragmentupdater"));
         renderTimeline(true);
     }
 
@@ -85,6 +95,13 @@ public class TimeLineHomeFragment extends TweetListBaseFragment {
                     mIsLoading = false;
                 }
             });
+        }
+    }
+
+    public class FragmentReceiver1 extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            renderTimeline(true);
         }
     }
 }

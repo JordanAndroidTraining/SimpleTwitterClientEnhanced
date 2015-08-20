@@ -18,7 +18,7 @@ import com.codepath.apps.SimpleTwitterClient.R;
 public class MainTimelineContainerActivity extends ActionBarActivity implements AdapterView.OnItemClickListener, ViewPager.OnPageChangeListener {
 
     public static final String HOME_TIMELINE_ACTIVITY_DEV_TAG = "TimelineContainerActivi";
-    public static final String[] ACTION_BAR_TITLE = {"Home","Mentions","Message","Me"};
+    public static final String[] ACTION_BAR_TITLE = {"Home","Mentions","Me"};
     public static final int COMPOSE_REQUEST_CODE = 999;
     private FragmentManager mFm;
     private MainContainerPageAdapter mPageAdapter;
@@ -86,7 +86,8 @@ public class MainTimelineContainerActivity extends ActionBarActivity implements 
                 case RESULT_OK:
                     Log.d(HOME_TIMELINE_ACTIVITY_DEV_TAG, "onActivityResult()|RESULT_OK");
 //                    renderTimeline(true);
-
+                    Intent broadcaseIntent = new Intent("fragmentupdater");
+                    sendBroadcast(broadcaseIntent);
                     break;
                 case RESULT_CANCELED:
                     break;

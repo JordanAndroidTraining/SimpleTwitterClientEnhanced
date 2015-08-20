@@ -37,6 +37,7 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 * [x] use view holder to improve performance
+* [x] use **BroadcastReceiver** to listen for new compose and update home timeline fragment
 
 ## Video Walkthrough
 

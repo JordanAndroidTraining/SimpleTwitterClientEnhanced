@@ -60,18 +60,15 @@ public class UserListAdapter  extends ArrayAdapter<UserModel> {
 
         UserModel renderRow = mUserList.get(position);
 
-        Log.d("JordanGGGG", "username: " + renderRow.getUserName());
-        Log.d("JordanGGGG", "screenname: " + renderRow.getUserScreenName());
-
         Picasso.with(mContext).load(renderRow.getProfilePhotoUrl()).into(viewHolder.profilePhotoIv);
         viewHolder.userNameTv.setText(renderRow.getUserName());
-        viewHolder.userScreenNameTv.setText(renderRow.getUserScreenName());
+        viewHolder.userScreenNameTv.setText("@" + renderRow.getUserScreenName());
 
         //hide loading theme
         viewHolder.userNameTv.setBackground(null);
-        viewHolder.userNameTv.setTextColor(black);
+        viewHolder.userNameTv.setTextColor(R.color.twitter_black);
         viewHolder.userScreenNameTv.setBackground(null);
-        viewHolder.userScreenNameTv.setText(gray);
+        viewHolder.userScreenNameTv.setTextColor(gray);
 
         return convertView;
     }

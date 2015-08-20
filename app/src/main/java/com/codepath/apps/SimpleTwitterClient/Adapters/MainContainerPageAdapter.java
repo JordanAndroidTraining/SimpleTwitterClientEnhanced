@@ -16,10 +16,9 @@ import com.codepath.apps.SimpleTwitterClient.R;
  * Created by jordanhsu on 8/17/15.
  */
 public class MainContainerPageAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider {
-    private String[] mTabTitle = {"Home","Mentions","DirectMsg","Me"};
+    private String[] mTabTitle = {"Home","Mentions","Me"};
     private int tabIcons[] = {R.drawable.ic_twitter_home_gray
                             ,R.drawable.ic_mention_gray
-                            ,R.drawable.ic_twitter_direct_msg_gray
                             ,R.drawable.ic_twitter_profile_gray};
 
     public MainContainerPageAdapter(FragmentManager fm) {
@@ -30,13 +29,10 @@ public class MainContainerPageAdapter extends FragmentPagerAdapter implements Pa
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-
                 return TimeLineHomeFragment.newInstance();
             case 1:
                 return TimeLineMentionFragment.newInstance();
             case 2:
-                return DirectMsgFragment.newInstance();
-            case 3:
                 return ProfileViewFragment.newInstance();
             default:
                 return null;
