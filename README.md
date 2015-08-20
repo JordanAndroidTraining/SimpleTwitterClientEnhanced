@@ -40,7 +40,7 @@ The following **additional** features are implemented:
 * [x] use **BroadcastReceiver** to listen for new compose and update home timeline fragment
 
 ## Video Walkthrough
-
+![Video Walkthrough](demo.gif)
 
 ## Open-source libraries used
 
